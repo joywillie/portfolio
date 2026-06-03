@@ -1,21 +1,21 @@
+/* GLOBAL RESET & BASE STYLES */
 * { 
   margin: 0; 
   padding: 0; 
   box-sizing: border-box; 
   font-family: 'Poppins', sans-serif; 
 }
-
 html { 
   scroll-behavior: smooth; 
 }
-
 body { 
   background: #0f172a; 
   color: white; 
-  padding-top: 80px; 
+  padding-top: 90px; 
+  overflow-x: hidden;
 }
 
-/* NAVBAR */
+/* NAVBAR STYLING */
 header { 
   width: 100%; 
   display: flex; 
@@ -25,9 +25,10 @@ header {
   background: #111827; 
   position: fixed; 
   top: 0; 
+  left: 0;
   z-index: 1000; 
+  border-bottom: 1px solid #1e293b;
 }
-
 .logo { 
   font-size: 28px; 
   font-weight: 700; 
@@ -35,252 +36,79 @@ header {
   text-decoration: none; 
 }
 
+/* DESKTOP MENU links */
+nav { 
+  display: flex; 
+  align-items: center; 
+}
 nav a { 
   color: white; 
   text-decoration: none; 
-  margin-left: 25px; 
-  transition: 0.3s; 
+  margin-left: 30px; 
+  transition: 0.3s ease; 
   font-weight: 500; 
+  font-size: 16px;
 }
-
 nav a:hover, nav a.active-link { 
   color: #38bdf8; 
 }
 
-/* HAMBURGER DRAWER ICON */
+/* HAMBURGER ICON CONTAINER */
 .hamburger { 
-  display: none; 
-  flex-direction: column; 
-  cursor: pointer; 
-  gap: 6px; 
-  z-index: 1001; 
+  display: none; /* Hidden on laptop/desktop screen views */
+  flex-direction: column !important; 
+  justify-content: space-between !important;
+  width: 32px !important;
+  height: 22px !important;
+  cursor: pointer !important; 
+  z-index: 9999 !important; 
+  background: transparent !important;
+  border: none !important;
+  outline: none !important;
+  padding: 0 !important;
 }
 
+/* THE THREE BLUE BARS */
 .hamburger span { 
-  display: block;
-  width: 30px; 
-  height: 3px; 
-  background-color: #38bdf8; 
-  border-radius: 2px; 
-  transition: 0.3s; 
+  display: block !important; 
+  width: 100% !important; 
+  height: 4px !important; 
+  background-color: #38bdf8 !important; /* Vibrant Cyan Blue */
+  border-radius: 4px !important; 
+  opacity: 1 !important;
+  visibility: visible !important;
 }
 
-/* HERO / HOME PAGE */
+/* HERO PROFILE LAYOUT */
 .hero { 
   min-height: 80vh; 
   display: flex; 
   justify-content: space-between; 
   align-items: center; 
   padding: 40px 8%; 
-  gap: 40px; 
+  gap: 50px; 
 }
+.hero-text { flex: 1; }
+.hero-text h1 { font-size: 60px; color: #38bdf8; line-height: 1.2; }
+.hero-text h2 { font-size: 30px; margin: 15px 0; }
+.hero-text p { margin: 20px 0 35px 0; line-height: 1.8; color: #cbd5e1; }
+.buttons { display: flex; gap: 20px; }
+.btn { background: #38bdf8; color: #0f172a; padding: 14px 28px; text-decoration: none; border-radius: 8px; font-weight: 600; display: inline-block; }
+.btn-outline { border: 2px solid #38bdf8; color: #38bdf8; padding: 12px 28px; text-decoration: none; border-radius: 8px; font-weight: 600; display: inline-block; }
+.hero-image img { width: 340px; height: 340px; object-fit: cover; border-radius: 50%; border: 4px solid #38bdf8; }
 
-.hero-text { 
-  flex: 1; 
-}
+footer { text-align: center; padding: 30px; background: #111827; color: #cbd5e1; margin-top: 40px; }
 
-.hero-text h3 { 
-  font-size: 25px; 
-  margin-bottom: 10px; 
-}
-
-.hero-text h1 { 
-  font-size: 65px; 
-  color: #38bdf8; 
-}
-
-.hero-text h2 { 
-  font-size: 32px; 
-  margin: 10px 0; 
-}
-
-.hero-text p { 
-  margin: 20px 0; 
-  line-height: 1.8; 
-  max-width: 600px; 
-  color: #cbd5e1; 
-}
-
-.buttons { 
-  margin-top: 30px; 
-}
-
-.btn { 
-  background: #38bdf8; 
-  color: black; 
-  padding: 14px 28px; 
-  text-decoration: none; 
-  border-radius: 8px; 
-  font-weight: 600; 
-  margin-right: 15px; 
-  transition: 0.3s; 
-  display: inline-block; 
-}
-
-.btn:hover { 
-  background: white; 
-}
-
-.btn-outline { 
-  border: 2px solid #38bdf8; 
-  color: #38bdf8; 
-  padding: 12px 28px; 
-  text-decoration: none; 
-  border-radius: 8px; 
-  transition: 0.3s; 
-  display: inline-block; 
-}
-
-.btn-outline:hover { 
-  background: #38bdf8; 
-  color: black; 
-}
-
-.hero-image img { 
-  width: 350px; 
-  border-radius: 20px; 
-  box-shadow: 0 0 25px rgba(56, 189, 248, 0.4); 
-}
-
-/* GENERAL SECTIONS */
-section { 
-  padding: 60px 8%; 
-}
-
-.section-title { 
-  margin-bottom: 50px; 
-  text-align: center; 
-}
-
-.section-title h2 { 
-  font-size: 42px; 
-  color: #38bdf8; 
-}
-
-.about-p { 
-  max-width: 900px; 
-  margin: auto; 
-  text-align: center; 
-  line-height: 2; 
-  color: #cbd5e1; 
-  font-size: 18px; 
-}
-
-.skills-container { 
-  display: grid; 
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
-  gap: 25px; 
-}
-
-.skill-card { 
-  background: #1e293b; 
-  padding: 35px; 
-  border-radius: 15px; 
-  text-align: center; 
-  transition: 0.3s; 
-  border: 1px solid transparent; 
-}
-
-.skill-card:hover { 
-  transform: translateY(-10px); 
-  border-color: #38bdf8; 
-}
-
-.skill-card h3 { 
-  font-size: 22px; 
-}
-
-.project-container { 
-  display: grid; 
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
-  gap: 25px; 
-}
-
-.project-card { 
-  background: #1e293b; 
-  border-radius: 15px; 
-  overflow: hidden; 
-  transition: 0.3s; 
-}
-
-.project-card:hover { 
-  transform: translateY(-10px); 
-}
-
-.project-card img { 
-  width: 100%; 
-  height: 220px; 
-  object-fit: cover; 
-}
-
-.project-card h3 { 
-  padding: 20px 20px 10px; 
-  color: #38bdf8; 
-}
-
-.project-card p { 
-  padding: 0 20px 25px; 
-  color: #cbd5e1; 
-}
-
-/* CONTACT FORM */
-form { 
-  max-width: 700px; 
-  margin: auto; 
-  display: flex; 
-  flex-direction: column; 
-  gap: 20px; 
-}
-
-input, textarea { 
-  padding: 16px; 
-  border: none; 
-  border-radius: 10px; 
-  background: #1e293b; 
-  color: white; 
-  font-size: 16px; 
-  width: 100%; 
-}
-
-textarea { 
-  height: 180px; 
-  resize: none; 
-}
-
-button { 
-  background: #38bdf8; 
-  color: black; 
-  padding: 16px; 
-  border: none; 
-  border-radius: 10px; 
-  font-weight: 600; 
-  font-size: 16px; 
-  cursor: pointer; 
-  transition: 0.3s; 
-}
-
-button:hover { 
-  background: white; 
-}
-
-footer { 
-  text-align: center; 
-  padding: 30px; 
-  background: #111827; 
-  color: #cbd5e1; 
-  margin-top: 40px; 
-}
-
-/* MOBILE MEDIA QUERY */
-@media(max-width: 900px) {
-  body { 
-    padding-top: 130px; 
-  }
+/* 📱 MOBILE VIEW COMPILER RULE (BELOW 900PX) */
+@media (max-width: 900px) {
+  body { padding-top: 80px; }
   
+  /* FORCE HAMBURGER LINES ON SCREEN */
   .hamburger { 
-    display: flex; 
+    display: flex !important; 
   }
   
+  /* DROPDOWN MENU CONFIGURATION */
   nav { 
     display: none; 
     flex-direction: column; 
@@ -289,35 +117,27 @@ footer {
     left: 0; 
     width: 100%; 
     background: #111827; 
-    padding: 20px 0; 
+    padding: 30px 0; 
     text-align: center; 
     border-top: 1px solid #1e293b; 
+    box-shadow: 0 15px 20px rgba(0, 0, 0, 0.6);
   }
   
+  /* DROPDOWN ACTIVATE */
   nav.active { 
-    display: flex; 
+    display: flex !important; 
   }
   
   nav a { 
     margin: 15px 0; 
     font-size: 20px; 
     display: block; 
+    width: 100%;
+    margin-left: 0;
   }
   
-  .hero { 
-    flex-direction: column; 
-    text-align: center; 
-  }
-  
-  .hero-text h1 { 
-    font-size: 45px; 
-  }
-  
-  .hero-text h2 { 
-    font-size: 25px; 
-  }
-  
-  .hero-image img { 
-    width: 280px; 
-  }
+  .hero { flex-direction: column-reverse; text-align: center; gap: 35px; }
+  .hero-text h1 { font-size: 42px; }
+  .hero-image img { width: 260px; height: 260px; }
+  .buttons { justify-content: center; }
 }
