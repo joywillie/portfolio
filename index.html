@@ -6,7 +6,64 @@
   <title>JoyTech Portfolio - Home</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght=300;400;500;600;700&display=swap" rel="stylesheet">
   
-  <link rel="stylesheet" href="style.css">
+  <style>
+    /* GLOBAL RESET & BASE STYLES */
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+    html { scroll-behavior: smooth; }
+    body { background: #0f172a; color: white; padding-top: 90px; overflow-x: hidden; }
+
+    /* NAVBAR STYLING */
+    header { 
+      width: 100%; display: flex; justify-content: space-between; align-items: center; 
+      padding: 20px 8%; background: #111827; position: fixed; top: 0; left: 0; z-index: 1000; border-bottom: 1px solid #1e293b;
+    }
+    .logo { font-size: 28px; font-weight: 700; color: #38bdf8; text-decoration: none; }
+    
+    /* DESKTOP NAVIGATION MENU */
+    nav { display: flex; align-items: center; }
+    nav a { color: white; text-decoration: none; margin-left: 30px; transition: 0.3s ease; font-weight: 500; font-size: 16px; }
+    nav a:hover, nav a.active-link { color: #38bdf8; }
+
+    /* THE HAMBURGER BUTTON WITH FORCE VISIBILITY */
+    .hamburger { 
+      display: none; flex-direction: column !important; justify-content: space-between !important;
+      width: 32px !important; height: 22px !important; cursor: pointer !important; z-index: 9999 !important; 
+      background: transparent !important; border: none !important; outline: none !important; padding: 0 !important;
+    }
+    .hamburger span { 
+      display: block !important; width: 100% !important; height: 4px !important; 
+      background-color: #38bdf8 !important; border-radius: 4px !important; opacity: 1 !important; visibility: visible !important;
+    }
+
+    /* HERO PROFILE SECTION */
+    .hero { min-height: 80vh; display: flex; justify-content: space-between; align-items: center; padding: 40px 8%; gap: 50px; }
+    .hero-text { flex: 1; }
+    .hero-text h1 { font-size: 60px; font-weight: 700; color: #38bdf8; line-height: 1.2; }
+    .hero-text h2 { font-size: 30px; font-weight: 600; margin: 15px 0; color: white; }
+    .hero-text p { margin: 20px 0 35px 0; line-height: 1.8; max-width: 600px; color: #cbd5e1; font-size: 16px; }
+    .buttons { display: flex; gap: 20px; }
+    .btn { background: #38bdf8; color: #0f172a; padding: 14px 28px; text-decoration: none; border-radius: 8px; font-weight: 600; transition: 0.3s ease; }
+    .btn-outline { border: 2px solid #38bdf8; color: #38bdf8; padding: 12px 28px; text-decoration: none; border-radius: 8px; font-weight: 600; transition: 0.3s ease; }
+    .hero-image img { width: 340px; height: 340px; object-fit: cover; border-radius: 50%; border: 4px solid #38bdf8; box-shadow: 0 0 30px rgba(56, 189, 248, 0.3); }
+
+    footer { text-align: center; padding: 30px; background: #111827; color: #cbd5e1; margin-top: 40px; border-top: 1px solid #1e293b; }
+
+    /* 📱 MOBILE RESPONSIVE STYLES (UNDER 900PX) */
+    @media (max-width: 900px) {
+      body { padding-top: 80px; }
+      .hamburger { display: flex !important; }
+      nav { 
+        display: none; flex-direction: column; position: absolute; top: 100%; left: 0; 
+        width: 100%; background: #111827; padding: 30px 0; text-align: center; border-top: 1px solid #1e293b; box-shadow: 0 15px 20px rgba(0, 0, 0, 0.6);
+      }
+      nav.active { display: flex !important; }
+      nav a { margin: 15px 0; font-size: 20px; display: block; width: 100%; margin-left: 0; }
+      .hero { flex-direction: column-reverse; text-align: center; padding-top: 30px; gap: 35px; }
+      .hero-text h1 { font-size: 42px; }
+      .hero-image img { width: 260px; height: 260px; }
+      .buttons { justify-content: center; }
+    }
+  </style>
 </head>
 <body>
 
@@ -44,9 +101,7 @@
     </div>
   </section>
 
-  <footer>
-    <p>© 2026 JoyTech Portfolio | Designed by Joyce William</p>
-  </footer>
+  <footer><p>© 2026 JoyTech Portfolio | Designed by Joyce William</p></footer>
 
   <script>
     document.addEventListener("DOMContentLoaded", function() {
