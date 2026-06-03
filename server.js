@@ -10,12 +10,12 @@ const pool = new Pool({
   ssl: { rejectUnauthorized: false }
 });
 
-// Serve static assets out of the public folder
-app.use(express.static(path.join(__dirname, '.')));
+// Direct Express to look inside the public folder for static resources
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Contact submission endpoint 
+// Handle Contact Form Post requests
 app.post('/contact', async (req, res) => {
   const { name, email, message } = req.body;
   try {
@@ -30,9 +30,9 @@ app.post('/contact', async (req, res) => {
   }
 });
 
-// Fallback to route cleanly to index.html for root path requests
+// Explicitly route requests to root back to index.html
 app.get('/', (req, res) => {
- res.sendFile(path.join(__dirname, 'index.html'));
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 app.listen(PORT, () => {
