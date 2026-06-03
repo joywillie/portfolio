@@ -32,7 +32,7 @@ app.post('/contact', async (req, res) => {
 
 // Fallback to route cleanly to index.html for root path requests
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+ res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 app.listen(PORT, () => {
