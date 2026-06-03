@@ -10,12 +10,13 @@ const pool = new Pool({
   ssl: { rejectUnauthorized: false }
 });
 
-// Look for files directly in the main folder (root)
+// This checks BOTH the root folder AND the public folder so it never fails!
 app.use(express.static(path.join(__dirname, '.')));
+app.use(express.static(path.join(__dirname, 'public')));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Handle Contact Form submissions
 app.post('/contact', async (req, res) => {
   const { name, email, message } = req.body;
   try {
@@ -30,9 +31,13 @@ app.post('/contact', async (req, res) => {
   }
 });
 
-// Serve index.html directly from the main folder
+// Fallback: If it finds index.html in public, use it. Otherwise, use the root one.
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html'));
+  res.sendFile(path.join(__dirname, 'index.html'), (err) => {
+    if (err) {
+      res.sendFile(path.join(__dirname, 'public', 'index.html'));
+    }
+  });
 });
 
 app.listen(PORT, () => {
