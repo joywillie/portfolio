@@ -10,12 +10,12 @@ const pool = new Pool({
   ssl: { rejectUnauthorized: false }
 });
 
-// Direct Express to look inside the public folder for static resources
-app.use(express.static(path.join(__dirname, 'public')));
+// Look for files directly in the main folder (root)
+app.use(express.static(path.join(__dirname, '.')));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Handle Contact Form Post requests
+// Handle Contact Form submissions
 app.post('/contact', async (req, res) => {
   const { name, email, message } = req.body;
   try {
@@ -23,16 +23,16 @@ app.post('/contact', async (req, res) => {
       'INSERT INTO messages(name, email, message) VALUES($1, $2, $3)',
       [name, email, message]
     );
-    res.send('<h1>Message Sent Successfully!</h1><a href="/">Go Back</a>');
+    res.send('<h1>Message Sent Successfully!</h1><a href="/contact.html">Go Back</a>');
   } catch (err) {
     console.error(err);
     res.status(500).send('Database Error');
   }
 });
 
-// Explicitly route requests to root back to index.html
+// Serve index.html directly from the main folder
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+  res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 app.listen(PORT, () => {
