@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>JoyTech Portfolio - Home</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght=300;400;500;600;700&display=swap" rel="stylesheet">
   
   <style>
     /* GLOBAL STYLES */
@@ -28,12 +28,13 @@
     .logo { font-size: 28px; font-weight: 700; color: #38bdf8; text-decoration: none; }
     
     /* DESKTOP NAVIGATION */
+    nav { display: flex; align-items: center; }
     nav a { color: white; text-decoration: none; margin-left: 25px; transition: 0.3s; font-weight: 500; }
     nav a:hover, nav a.active-link { color: #38bdf8; }
 
     /* HAMBURGER ICON (THE THREE LINES) */
     .hamburger { 
-      display: none; /* Hidden by default on computer screens */
+      display: none; /* Hidden on desktop screens */
       flex-direction: column; 
       cursor: pointer; 
       gap: 6px; 
@@ -44,7 +45,7 @@
       display: block; 
       width: 30px; 
       height: 3px; 
-      background-color: #38bdf8 !important; /* Force color to bright blue */
+      background-color: #38bdf8; 
       border-radius: 2px; 
       transition: 0.3s; 
     }
@@ -65,16 +66,16 @@
 
     footer { text-align: center; padding: 30px; background: #111827; color: #cbd5e1; margin-top: 40px; }
 
-    /* MOBILE RESPONSIVE STYLES (UNDER 900PXWIDE) */
+    /* MOBILE RESPONSIVE STYLES (UNDER 900PX WIDE) */
     @media (max-width: 900px) {
       body { padding-top: 100px; }
       
-      /* FORCE HAMBURGER TO SHOW */
+      /* Show the hamburger lines */
       .hamburger { 
         display: flex !important; 
       }
       
-      /* TRANSFORM NAVIGATION TO DROPDOWN */
+      /* Transform nav links into a clean mobile dropdown drawer menu */
       nav { 
         display: none; 
         flex-direction: column; 
@@ -89,7 +90,7 @@
         box-shadow: 0 10px 15px rgba(0,0,0,0.5);
       }
       
-      /* SHOW DROPDOWN WHEN ACTIVE */
+      /* The .active class that JavaScript will add when you click the hamburger */
       nav.active { 
         display: flex !important; 
       }
@@ -98,6 +99,7 @@
         margin: 15px 0; 
         font-size: 22px; 
         display: block; 
+        width: 100%;
       }
       
       .hero { flex-direction: column; text-align: center; padding-top: 40px; }
@@ -147,13 +149,13 @@
 
   <script>
     document.addEventListener("DOMContentLoaded", function() {
-      const btn = document.getElementById('hamburger-btn');
-      const menu = document.getElementById('nav-menu');
+      const hamburgerButton = document.getElementById('hamburger-btn');
+      const navigationMenu = document.getElementById('nav-menu');
 
-      if(btn && menu) {
-        btn.addEventListener('click', function(e) {
-          e.stopPropagation();
-          menu.classList.toggle('active');
+      if (hamburgerButton && navigationMenu) {
+        hamburgerButton.addEventListener('click', function(e) {
+          e.stopPropagation(); // Prevents the click from instantly closing
+          navigationMenu.classList.toggle('active'); // Toggles open/close visibility
         });
       }
     });
