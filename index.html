@@ -4,14 +4,121 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>JoyTech Portfolio - Home</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght=300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    /* GLOBAL STYLES */
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+    html { scroll-behavior: smooth; }
+    body { background: #0f172a; color: white; padding-top: 80px; }
+
+    /* NAVBAR */
+    header { 
+      width: 100%; 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center; 
+      padding: 20px 8%; 
+      background: #111827; 
+      position: fixed; 
+      top: 0; 
+      left: 0;
+      z-index: 1000; 
+    }
+    .logo { font-size: 28px; font-weight: 700; color: #38bdf8; text-decoration: none; }
+    
+    /* DESKTOP NAVIGATION */
+    nav a { color: white; text-decoration: none; margin-left: 25px; transition: 0.3s; font-weight: 500; }
+    nav a:hover, nav a.active-link { color: #38bdf8; }
+
+    /* HAMBURGER ICON (THE THREE LINES) */
+    .hamburger { 
+      display: none; /* Hidden by default on computer screens */
+      flex-direction: column; 
+      cursor: pointer; 
+      gap: 6px; 
+      z-index: 1002; 
+      padding: 5px;
+    }
+    .hamburger span { 
+      display: block; 
+      width: 30px; 
+      height: 3px; 
+      background-color: #38bdf8 !important; /* Force color to bright blue */
+      border-radius: 2px; 
+      transition: 0.3s; 
+    }
+
+    /* HERO SECTION */
+    .hero { min-height: 80vh; display: flex; justify-content: space-between; align-items: center; padding: 40px 8%; gap: 40px; }
+    .hero-text { flex: 1; }
+    .hero-text h3 { font-size: 25px; margin-bottom: 10px; }
+    .hero-text h1 { font-size: 65px; color: #38bdf8; }
+    .hero-text h2 { font-size: 32px; margin: 10px 0; }
+    .hero-text p { margin: 20px 0; line-height: 1.8; max-width: 600px; color: #cbd5e1; }
+    .buttons { margin-top: 30px; }
+    .btn { background: #38bdf8; color: black; padding: 14px 28px; text-decoration: none; border-radius: 8px; font-weight: 600; margin-right: 15px; transition: 0.3s; display: inline-block; }
+    .btn:hover { background: white; }
+    .btn-outline { border: 2px solid #38bdf8; color: #38bdf8; padding: 12px 28px; text-decoration: none; border-radius: 8px; transition: 0.3s; display: inline-block; }
+    .btn-outline:hover { background: #38bdf8; color: black; }
+    .hero-image img { width: 350px; border-radius: 20px; box-shadow: 0 0 25px rgba(56, 189, 248, 0.4); }
+
+    footer { text-align: center; padding: 30px; background: #111827; color: #cbd5e1; margin-top: 40px; }
+
+    /* MOBILE RESPONSIVE STYLES (UNDER 900PXWIDE) */
+    @media (max-width: 900px) {
+      body { padding-top: 100px; }
+      
+      /* FORCE HAMBURGER TO SHOW */
+      .hamburger { 
+        display: flex !important; 
+      }
+      
+      /* TRANSFORM NAVIGATION TO DROPDOWN */
+      nav { 
+        display: none; 
+        flex-direction: column; 
+        position: absolute; 
+        top: 100%; 
+        left: 0; 
+        width: 100%; 
+        background: #111827; 
+        padding: 20px 0; 
+        text-align: center; 
+        border-top: 1px solid #1e293b; 
+        box-shadow: 0 10px 15px rgba(0,0,0,0.5);
+      }
+      
+      /* SHOW DROPDOWN WHEN ACTIVE */
+      nav.active { 
+        display: flex !important; 
+      }
+      
+      nav a { 
+        margin: 15px 0; 
+        font-size: 22px; 
+        display: block; 
+      }
+      
+      .hero { flex-direction: column; text-align: center; padding-top: 40px; }
+      .hero-text h1 { font-size: 45px; }
+      .hero-text h2 { font-size: 25px; }
+      .hero-image img { width: 280px; }
+    }
+  </style>
 </head>
 <body>
+
   <header>
     <a href="/" class="logo">JoyTech</a>
-    <div class="hamburger" id="hamburger-menu"><span></span><span></span><span></span></div>
-    <nav id="nav-links">
+    
+    <div class="hamburger" id="hamburger-btn">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+
+    <nav id="nav-menu">
       <a href="/" class="active-link">Home</a>
       <a href="/about.html">About</a>
       <a href="/skills.html">Skills</a>
@@ -37,6 +144,19 @@
   </section>
 
   <footer><p>© 2026 JoyTech Portfolio | Designed by Joyce William</p></footer>
-  <script src="/js/nav.js"></script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const btn = document.getElementById('hamburger-btn');
+      const menu = document.getElementById('nav-menu');
+
+      if(btn && menu) {
+        btn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          menu.classList.toggle('active');
+        });
+      }
+    });
+  </script>
 </body>
 </html>
