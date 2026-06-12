@@ -1,13 +1,17 @@
-/* GLOBAL RESET & BASE STYLES */
+/* ==========================================================================
+   1. GLOBAL RESET & BASE STYLES
+   ========================================================================== */
 * { 
   margin: 0; 
   padding: 0; 
   box-sizing: border-box; 
   font-family: 'Poppins', sans-serif; 
 }
+
 html { 
   scroll-behavior: smooth; 
 }
+
 body { 
   background: #0f172a; 
   color: white; 
@@ -15,7 +19,14 @@ body {
   overflow-x: hidden;
 }
 
-/* NAVBAR STYLING */
+/* UX Safe-guard: Locks body scrolling when mobile menu drawer is open */
+body.menu-locked {
+  overflow: hidden;
+}
+
+/* ==========================================================================
+   2. NAVBAR & FIXED HEADER LAYER
+   ========================================================================== */
 header { 
   width: 100%; 
   display: flex; 
@@ -29,57 +40,80 @@ header {
   z-index: 1000; 
   border-bottom: 1px solid #1e293b;
 }
+
 .logo { 
   font-size: 28px; 
   font-weight: 700; 
   color: #38bdf8; 
   text-decoration: none; 
+  position: relative;
+  z-index: 1002; /* Ensures branding stays above overlays */
 }
 
-/* DESKTOP MENU links */
+/* DESKTOP MENU LINKS */
 nav { 
   display: flex; 
   align-items: center; 
 }
+
 nav a { 
   color: white; 
   text-decoration: none; 
   margin-left: 30px; 
-  transition: 0.3s ease; 
+  transition: color 0.3s ease; 
   font-weight: 500; 
   font-size: 16px;
 }
+
 nav a:hover, nav a.active-link { 
   color: #38bdf8; 
 }
 
-/* HAMBURGER ICON CONTAINER */
+/* ==========================================================================
+   3. PREMIUM ANIMATED HAMBURGER ICON
+   ========================================================================== */
 .hamburger { 
-  display: none; /* Hidden on laptop/desktop screen views */
-  flex-direction: column !important; 
-  justify-content: space-between !important;
-  width: 32px !important;
-  height: 22px !important;
-  cursor: pointer !important; 
-  z-index: 9999 !important; 
-  background: transparent !important;
-  border: none !important;
-  outline: none !important;
-  padding: 0 !important;
+  display: none; /* Hidden on laptop/desktop monitor screens */
+  flex-direction: column; 
+  justify-content: space-between;
+  width: 28px;
+  height: 20px;
+  cursor: pointer; 
+  background: transparent;
+  border: none;
+  outline: none;
+  padding: 0;
+  z-index: 1002; /* Sits completely flush with the header layer */
 }
 
-/* THE THREE BLUE BARS */
+/* The three cyan bars */
 .hamburger span { 
-  display: block !important; 
-  width: 100% !important; 
-  height: 4px !important; 
-  background-color: #38bdf8 !important; /* Vibrant Cyan Blue */
-  border-radius: 4px !important; 
-  opacity: 1 !important;
-  visibility: visible !important;
+  display: block; 
+  width: 100%; 
+  height: 3px; 
+  background-color: #38bdf8; /* Vibrant Cyan Blue */
+  border-radius: 4px; 
+  transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+  transform-origin: center;
 }
 
-/* HERO PROFILE LAYOUT */
+/* Dynamic CSS Transitions: Active state transforms bars into a clean 'X' */
+.hamburger.active span:nth-child(1) { 
+  transform: translateY(8.5px) rotate(45deg); 
+}
+
+.hamburger.active span:nth-child(2) { 
+  opacity: 0; 
+  transform: translateX(-10px); 
+}
+
+.hamburger.active span:nth-child(3) { 
+  transform: translateY(-8.5px) rotate(-45deg); 
+}
+
+/* ==========================================================================
+   4. HERO PROFILE LAYOUT
+   ========================================================================== */
 .hero { 
   min-height: 80vh; 
   display: flex; 
@@ -88,56 +122,154 @@ nav a:hover, nav a.active-link {
   padding: 40px 8%; 
   gap: 50px; 
 }
-.hero-text { flex: 1; }
-.hero-text h1 { font-size: 60px; color: #38bdf8; line-height: 1.2; }
-.hero-text h2 { font-size: 30px; margin: 15px 0; }
-.hero-text p { margin: 20px 0 35px 0; line-height: 1.8; color: #cbd5e1; }
-.buttons { display: flex; gap: 20px; }
-.btn { background: #38bdf8; color: #0f172a; padding: 14px 28px; text-decoration: none; border-radius: 8px; font-weight: 600; display: inline-block; }
-.btn-outline { border: 2px solid #38bdf8; color: #38bdf8; padding: 12px 28px; text-decoration: none; border-radius: 8px; font-weight: 600; display: inline-block; }
-.hero-image img { width: 340px; height: 340px; object-fit: cover; border-radius: 50%; border: 4px solid #38bdf8; }
 
-footer { text-align: center; padding: 30px; background: #111827; color: #cbd5e1; margin-top: 40px; }
+.hero-text { 
+  flex: 1; 
+}
 
-/* 📱 MOBILE VIEW COMPILER RULE (BELOW 900PX) */
-@media (max-width: 900px) {
-  body { padding-top: 80px; }
-  
-  /* FORCE HAMBURGER LINES ON SCREEN */
-  .hamburger { 
-    display: flex !important; 
+.hero-text h1 { 
+  font-size: 60px; 
+  color: #38bdf8; 
+  line-height: 1.2; 
+}
+
+.hero-text h2 { 
+  font-size: 30px; 
+  margin: 15px 0; 
+}
+
+.hero-text p { 
+  margin: 20px 0 35px 0; 
+  line-height: 1.8; 
+  color: #cbd5e1; 
+}
+
+.buttons { 
+  display: flex; 
+  gap: 20px; 
+}
+
+.btn { 
+  background: #38bdf8; 
+  color: #0f172a; 
+  padding: 14px 28px; 
+  text-decoration: none; 
+  border-radius: 8px; 
+  font-weight: 600; 
+  display: inline-block; 
+  transition: background 0.3s ease;
+}
+
+.btn:hover {
+  background: #0ea5e9;
+}
+
+.btn-outline { 
+  border: 2px solid #38bdf8; 
+  color: #38bdf8; 
+  padding: 12px 28px; 
+  text-decoration: none; 
+  border-radius: 8px; 
+  font-weight: 600; 
+  display: inline-block; 
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+.btn-outline:hover {
+  background: rgba(56, 189, 248, 0.1);
+}
+
+.hero-image img { 
+  width: 340px; 
+  height: 340px; 
+  object-fit: cover; 
+  border-radius: 50%; 
+  border: 4px solid #38bdf8; 
+  box-shadow: 0 0 30px rgba(56, 189, 248, 0.3);
+}
+
+footer { 
+  text-align: center; 
+  padding: 30px; 
+  background: #111827; 
+  color: #cbd5e1; 
+  margin-top: 40px; 
+  border-top: 1px solid #1e293b;
+}
+
+/* ==========================================================================
+   5. 📱 MOBILE VIEW COMPILER BREAKPOINT (BELOW 1024PX)
+   ========================================================================== */
+@media (max-width: 1024px) {
+  body { 
+    padding-top: 80px; 
   }
   
-  /* DROPDOWN MENU CONFIGURATION */
+  .hamburger { 
+    display: flex; 
+  }
+  
+  /* Modern App-Style Dropdown Menu Overlay */
   nav { 
-    display: none; 
+    display: flex; 
     flex-direction: column; 
-    position: absolute; 
-    top: 100%; 
+    position: fixed; 
+    top: -100%; /* Keeps menu hidden above screen viewport */
     left: 0; 
     width: 100%; 
+    height: 100vh;
     background: #111827; 
-    padding: 30px 0; 
+    padding: 100px 0 30px 0; /* Clear padding space for top header items */
     text-align: center; 
-    border-top: 1px solid #1e293b; 
-    box-shadow: 0 15px 20px rgba(0, 0, 0, 0.6);
+    transition: top 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 1001;
+    overflow-y: auto;
   }
   
-  /* DROPDOWN ACTIVATE */
+  /* Active state transitions layout down smoothly */
   nav.active { 
-    display: flex !important; 
+    top: 0; 
   }
   
   nav a { 
-    margin: 15px 0; 
-    font-size: 20px; 
+    margin: 20px 0; 
+    font-size: 22px; 
+    font-weight: 600;
     display: block; 
     width: 100%;
     margin-left: 0;
   }
   
-  .hero { flex-direction: column-reverse; text-align: center; gap: 35px; }
-  .hero-text h1 { font-size: 42px; }
-  .hero-image img { width: 260px; height: 260px; }
-  .buttons { justify-content: center; }
+  /* Hero section adjustments for mobile viewing dimensions */
+  .hero { 
+    flex-direction: column-reverse; 
+    text-align: center; 
+    padding: 30px 5%;
+    gap: 35px; 
+  }
+  
+  .hero-text h1 { 
+    font-size: 40px; 
+  }
+  
+  .hero-text h2 {
+    font-size: 24px;
+  }
+  
+  .hero-image img { 
+    width: 260px; 
+    height: 260px; 
+  }
+  
+  .buttons { 
+    justify-content: center; 
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .btn, .btn-outline {
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
+  }
 }
