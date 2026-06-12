@@ -12,7 +12,7 @@
     html { scroll-behavior: smooth; }
     body { background: #0f172a; color: white; padding-top: 90px; overflow-x: hidden; }
     
-    /* UX Safeguard: Prevents body scrolling when mobile menu is open */
+    /* Prevents background scrolling when mobile menu drawer is open */
     body.menu-locked { overflow: hidden; }
 
     /* NAVBAR STYLING */
@@ -27,11 +27,11 @@
     nav a { color: white; text-decoration: none; margin-left: 30px; transition: 0.3s ease; font-weight: 500; font-size: 16px; }
     nav a:hover, nav a.active-link { color: #38bdf8; }
 
-    /* 🍔 PREMIUM HAMBURGER BUTTON */
+    /* 🍔 PROFESSIONAL ANIMATED HAMBURGER BUTTON */
     .hamburger { 
       display: none; flex-direction: column; justify-content: space-between;
       width: 28px; height: 20px; background: transparent; border: none; 
-      cursor: pointer; padding: 0; z-index: 1002; transition: transform 0.3s ease;
+      cursor: pointer; padding: 0; z-index: 1002;
     }
     .hamburger span { 
       display: block; width: 100%; height: 3px; 
@@ -39,7 +39,7 @@
       transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1); transform-origin: center;
     }
 
-    /* Animated states when clicked (Morphs seamlessly into an X) */
+    /* Morph transitions into a clean "X" when active */
     .hamburger.active span:nth-child(1) { transform: translateY(8.5px) rotate(45deg); }
     .hamburger.active span:nth-child(2) { opacity: 0; transform: translateX(-10px); }
     .hamburger.active span:nth-child(3) { transform: translateY(-8.5px) rotate(-45deg); }
@@ -60,24 +60,24 @@
 
     footer { text-align: center; padding: 30px; background: #111827; color: #cbd5e1; margin-top: 40px; border-top: 1px solid #1e293b; }
 
-    /* 📱 PROFESSIONAL MOBILE BREAKPOINT (UNDER 900PX) */
-    @media (max-width: 900px) {
+    /* 📱 RESPONSIVE BREAKPOINT (Triggering at 1024px for easier testing) */
+    @media (max-width: 1024px) {
       body { padding-top: 80px; }
       .hamburger { display: flex; }
       
-      /* Sleek Slide-In Right Panel Menu */
+      /* Slide-In Side Panel Menu */
       nav { 
-        position: fixed; top: 0; right: -100%; width: 75%; max-width: 320px; height: 100vh; 
+        position: fixed; top: 0; right: -100%; width: 70%; max-width: 300px; height: 100vh; 
         background: #111827; flex-direction: column; justify-content: center; align-items: center; 
         gap: 35px; border-left: 1px solid #1e293b;
         box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
         transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1); z-index: 1001;
       }
       
-      /* Active Slide State */
       nav.active { right: 0; }
       nav a { margin-left: 0; font-size: 20px; font-weight: 600; width: 100%; text-align: center; display: block; }
       
+      /* Main content layout adjustment */
       .hero { flex-direction: column-reverse; text-align: center; padding: 20px 5%; gap: 35px; }
       .hero-text h1 { font-size: 42px; }
       .hero-image img { width: 260px; height: 260px; }
@@ -131,7 +131,6 @@
       const menu = document.getElementById('nav-menu');
       const body = document.body;
 
-      // Toggle menu state cleanly
       function toggleMenu() {
         const isOpen = hamburger.classList.toggle('active');
         menu.classList.toggle('active');
@@ -145,7 +144,7 @@
           toggleMenu();
         });
 
-        // Close cleanly if a link inside the nav panel is clicked
+        // Close menu immediately if a navigation link is clicked
         const navLinks = menu.querySelectorAll('a');
         navLinks.forEach(link => {
           link.addEventListener('click', () => {
@@ -156,7 +155,7 @@
           });
         });
 
-        // Close menu immediately if user clicks anywhere outside the sidebar drawer
+        // Close menu automatically if user clicks anywhere outside the sidebar
         document.addEventListener('click', function(e) {
           if (menu.classList.contains('active') && !menu.contains(e.target) && !hamburger.contains(e.target)) {
             hamburger.classList.remove('active');
