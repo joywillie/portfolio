@@ -1,275 +1,111 @@
 /* ==========================================================================
-   1. GLOBAL RESET & BASE STYLES
+   GLOBAL HEADER & NAVIGATION LAYOUT
    ========================================================================== */
-* { 
-  margin: 0; 
-  padding: 0; 
-  box-sizing: border-box; 
-  font-family: 'Poppins', sans-serif; 
-}
-
-html { 
-  scroll-behavior: smooth; 
-}
-
-body { 
-  background: #0f172a; 
-  color: white; 
-  padding-top: 90px; 
-  overflow-x: hidden;
-}
-
-/* UX Safe-guard: Locks body scrolling when mobile menu drawer is open */
-body.menu-locked {
-  overflow: hidden;
-}
-
-/* ==========================================================================
-   2. NAVBAR & FIXED HEADER LAYER
-   ========================================================================== */
-header { 
-  width: 100%; 
-  display: flex; 
-  justify-content: space-between; 
-  align-items: center; 
-  padding: 20px 8%; 
-  background: #111827; 
-  position: fixed; 
-  top: 0; 
+header {
+  position: fixed;
+  top: 0;
   left: 0;
-  z-index: 1000; 
+  width: 100%;
+  padding: 20px 8%;
+  display: flex;
+  justify-content: space-between; /* Pushes logo to left, nav/hamburger to right */
+  align-items: center;
+  background: #0f172a; /* Matches your dark theme background */
   border-bottom: 1px solid #1e293b;
+  z-index: 1000; /* Keeps header floating above all content */
 }
 
-.logo { 
-  font-size: 28px; 
-  font-weight: 700; 
-  color: #38bdf8; 
-  text-decoration: none; 
-  position: relative;
-  z-index: 1002; /* Ensures branding stays above overlays */
+.logo {
+  font-size: 24px;
+  font-weight: 700;
+  color: #38bdf8;
+  text-decoration: none;
 }
 
-/* DESKTOP MENU LINKS */
-nav { 
-  display: flex; 
-  align-items: center; 
+/* DESKTOP NAVIGATION (Hidden on mobile later) */
+#nav-menu {
+  display: flex;
+  gap: 30px;
 }
 
-nav a { 
-  color: white; 
-  text-decoration: none; 
-  margin-left: 30px; 
-  transition: color 0.3s ease; 
-  font-weight: 500; 
-  font-size: 16px;
+#nav-menu a {
+  color: #cbd5e1;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
 }
 
-nav a:hover, nav a.active-link { 
-  color: #38bdf8; 
+#nav-menu a:hover, 
+#nav-menu a.active-link {
+  color: #38bdf8;
 }
 
 /* ==========================================================================
-   3. PREMIUM ANIMATED HAMBURGER ICON
+   HAMBURGER BUTTON (Top Right Placement Matrix)
    ========================================================================== */
-.hamburger { 
-  display: none; /* Hidden on laptop/desktop monitor screens */
-  flex-direction: column; 
-  justify-content: space-between;
-  width: 28px;
-  height: 20px;
-  cursor: pointer; 
-  background: transparent;
+#hamburger-btn {
+  display: none; /* Hidden on desktop screens by default */
+  background: none;
   border: none;
-  outline: none;
-  padding: 0;
-  z-index: 1002; /* Sits completely flush with the header layer */
+  cursor: pointer;
+  flex-direction: column;
+  gap: 6px;
+  padding: 5px;
+  z-index: 1010; /* Sits higher than the nav menu drawer */
 }
 
-/* The three cyan bars */
-.hamburger span { 
-  display: block; 
-  width: 100%; 
-  height: 3px; 
-  background-color: #38bdf8; /* Vibrant Cyan Blue */
-  border-radius: 4px; 
-  transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
-  transform-origin: center;
-}
-
-/* Dynamic CSS Transitions: Active state transforms bars into a clean 'X' */
-.hamburger.active span:nth-child(1) { 
-  transform: translateY(8.5px) rotate(45deg); 
-}
-
-.hamburger.active span:nth-child(2) { 
-  opacity: 0; 
-  transform: translateX(-10px); 
-}
-
-.hamburger.active span:nth-child(3) { 
-  transform: translateY(-8.5px) rotate(-45deg); 
+#hamburger-btn span {
+  display: block;
+  width: 30px;
+  height: 3px;
+  background-color: #38bdf8; /* Sleek cyan bars */
+  border-radius: 2px;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* ==========================================================================
-   4. HERO PROFILE LAYOUT
+   RESPONSIVE MOBILE BREAKPOINT (Under 768px)
    ========================================================================== */
-.hero { 
-  min-height: 80vh; 
-  display: flex; 
-  justify-content: space-between; 
-  align-items: center; 
-  padding: 40px 8%; 
-  gap: 50px; 
-}
-
-.hero-text { 
-  flex: 1; 
-}
-
-.hero-text h1 { 
-  font-size: 60px; 
-  color: #38bdf8; 
-  line-height: 1.2; 
-}
-
-.hero-text h2 { 
-  font-size: 30px; 
-  margin: 15px 0; 
-}
-
-.hero-text p { 
-  margin: 20px 0 35px 0; 
-  line-height: 1.8; 
-  color: #cbd5e1; 
-}
-
-.buttons { 
-  display: flex; 
-  gap: 20px; 
-}
-
-.btn { 
-  background: #38bdf8; 
-  color: #0f172a; 
-  padding: 14px 28px; 
-  text-decoration: none; 
-  border-radius: 8px; 
-  font-weight: 600; 
-  display: inline-block; 
-  transition: background 0.3s ease;
-}
-
-.btn:hover {
-  background: #0ea5e9;
-}
-
-.btn-outline { 
-  border: 2px solid #38bdf8; 
-  color: #38bdf8; 
-  padding: 12px 28px; 
-  text-decoration: none; 
-  border-radius: 8px; 
-  font-weight: 600; 
-  display: inline-block; 
-  transition: background 0.3s ease, color 0.3s ease;
-}
-
-.btn-outline:hover {
-  background: rgba(56, 189, 248, 0.1);
-}
-
-.hero-image img { 
-  width: 340px; 
-  height: 340px; 
-  object-fit: cover; 
-  border-radius: 50%; 
-  border: 4px solid #38bdf8; 
-  box-shadow: 0 0 30px rgba(56, 189, 248, 0.3);
-}
-
-footer { 
-  text-align: center; 
-  padding: 30px; 
-  background: #111827; 
-  color: #cbd5e1; 
-  margin-top: 40px; 
-  border-top: 1px solid #1e293b;
-}
-
-/* ==========================================================================
-   5. 📱 MOBILE VIEW COMPILER BREAKPOINT (BELOW 1024PX)
-   ========================================================================== */
-@media (max-width: 1024px) {
-  body { 
-    padding-top: 80px; 
+@media (max-width: 768px) {
+  header {
+    padding: 15px 5%; /* Snugs up padding on smaller screens */
   }
-  
-  .hamburger { 
-    display: flex; 
+
+  #hamburger-btn {
+    display: flex; /* Activates and displays on the top right naturally */
   }
-  
-  /* Modern App-Style Dropdown Menu Overlay */
-  nav { 
-    display: flex; 
-    flex-direction: column; 
-    position: fixed; 
-    top: -100%; /* Keeps menu hidden above screen viewport */
-    left: 0; 
-    width: 100%; 
+
+  /* Mobile Full-Screen/Drop-down Drawer Menu */
+  #nav-menu {
+    position: fixed;
+    top: 0;
+    right: -100%; /* Hides it completely off-screen to the right */
+    width: 70%; /* Takes up a clean portion of the screen when pulled out */
     height: 100vh;
-    background: #111827; 
-    padding: 100px 0 30px 0; /* Clear padding space for top header items */
-    text-align: center; 
-    transition: top 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    z-index: 1001;
-    overflow-y: auto;
-  }
-  
-  /* Active state transitions layout down smoothly */
-  nav.active { 
-    top: 0; 
-  }
-  
-  nav a { 
-    margin: 20px 0; 
-    font-size: 22px; 
-    font-weight: 600;
-    display: block; 
-    width: 100%;
-    margin-left: 0;
-  }
-  
-  /* Hero section adjustments for mobile viewing dimensions */
-  .hero { 
-    flex-direction: column-reverse; 
-    text-align: center; 
-    padding: 30px 5%;
-    gap: 35px; 
-  }
-  
-  .hero-text h1 { 
-    font-size: 40px; 
-  }
-  
-  .hero-text h2 {
-    font-size: 24px;
-  }
-  
-  .hero-image img { 
-    width: 260px; 
-    height: 260px; 
-  }
-  
-  .buttons { 
-    justify-content: center; 
+    background: #1e293b;
     flex-direction: column;
-    gap: 12px;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    transition: right 0.4s ease-in-out;
+    box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
   }
-  
-  .btn, .btn-outline {
-    width: 100%;
-    max-width: 300px;
-    margin: 0 auto;
+
+  /* When JS toggles '.active' via your click handler */
+  #nav-menu.active {
+    right: 0; /* Slides out smoothly from the right side */
+  }
+
+  /* HAMBURGER TO "X" MORPH ANIMATIONS */
+  #hamburger-btn.active span:nth-child(1) {
+    transform: translateY(9px) rotate(45deg);
+  }
+
+  #hamburger-btn.active span:nth-child(2) {
+    opacity: 0; /* Fades out middle bar */
+  }
+
+  #hamburger-btn.active span:nth-child(3) {
+    transform: translateY(-9px) rotate(-45deg);
   }
 }
