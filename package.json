@@ -1,13 +1,25 @@
 {
   "name": "joytech-portfolio",
   "version": "1.0.0",
-  "description": "JoyTech Personal Portfolio",
+  "description": "Production-ready personal portfolio backend with secure PostgreSQL integration.",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "dev": "nodemon server.js"
   },
+  "keywords": [
+    "portfolio",
+    "express",
+    "postgresql",
+    "joytech"
+  ],
+  "author": "Joyce William",
+  "license": "ISC",
   "dependencies": {
     "express": "^4.19.2",
     "pg": "^8.11.5"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
   }
 }
