@@ -11,54 +11,74 @@
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
     html { scroll-behavior: smooth; }
     body { background: #0f172a; color: white; padding-top: 90px; overflow-x: hidden; }
+    
+    /* UX Safeguard: Prevents body scrolling when mobile menu is open */
+    body.menu-locked { overflow: hidden; }
 
     /* NAVBAR STYLING */
     header { 
       width: 100%; display: flex; justify-content: space-between; align-items: center; 
       padding: 20px 8%; background: #111827; position: fixed; top: 0; left: 0; z-index: 1000; border-bottom: 1px solid #1e293b;
     }
-    .logo { font-size: 28px; font-weight: 700; color: #38bdf8; text-decoration: none; }
+    .logo { font-size: 28px; font-weight: 700; color: #38bdf8; text-decoration: none; position: relative; z-index: 1002; }
     
     /* DESKTOP NAVIGATION MENU */
     nav { display: flex; align-items: center; }
     nav a { color: white; text-decoration: none; margin-left: 30px; transition: 0.3s ease; font-weight: 500; font-size: 16px; }
     nav a:hover, nav a.active-link { color: #38bdf8; }
 
-    /* THE HAMBURGER BUTTON WITH FORCE VISIBILITY */
+    /* 🍔 PREMIUM HAMBURGER BUTTON */
     .hamburger { 
-      display: none; flex-direction: column !important; justify-content: space-between !important;
-      width: 32px !important; height: 22px !important; cursor: pointer !important; z-index: 9999 !important; 
-      background: transparent !important; border: none !important; outline: none !important; padding: 0 !important;
+      display: none; flex-direction: column; justify-content: space-between;
+      width: 28px; height: 20px; background: transparent; border: none; 
+      cursor: pointer; padding: 0; z-index: 1002; transition: transform 0.3s ease;
     }
     .hamburger span { 
-      display: block !important; width: 100% !important; height: 4px !important; 
-      background-color: #38bdf8 !important; border-radius: 4px !important; opacity: 1 !important; visibility: visible !important;
+      display: block; width: 100%; height: 3px; 
+      background-color: #38bdf8; border-radius: 4px; 
+      transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1); transform-origin: center;
     }
+
+    /* Animated states when clicked (Morphs seamlessly into an X) */
+    .hamburger.active span:nth-child(1) { transform: translateY(8.5px) rotate(45deg); }
+    .hamburger.active span:nth-child(2) { opacity: 0; transform: translateX(-10px); }
+    .hamburger.active span:nth-child(3) { transform: translateY(-8.5px) rotate(-45deg); }
 
     /* HERO PROFILE SECTION */
     .hero { min-height: 80vh; display: flex; justify-content: space-between; align-items: center; padding: 40px 8%; gap: 50px; }
     .hero-text { flex: 1; }
+    .hero-text h3 { color: #38bdf8; font-size: 18px; font-weight: 500; margin-bottom: 5px; }
     .hero-text h1 { font-size: 60px; font-weight: 700; color: #38bdf8; line-height: 1.2; }
     .hero-text h2 { font-size: 30px; font-weight: 600; margin: 15px 0; color: white; }
     .hero-text p { margin: 20px 0 35px 0; line-height: 1.8; max-width: 600px; color: #cbd5e1; font-size: 16px; }
     .buttons { display: flex; gap: 20px; }
     .btn { background: #38bdf8; color: #0f172a; padding: 14px 28px; text-decoration: none; border-radius: 8px; font-weight: 600; transition: 0.3s ease; }
+    .btn:hover { background: #0ea5e9; }
     .btn-outline { border: 2px solid #38bdf8; color: #38bdf8; padding: 12px 28px; text-decoration: none; border-radius: 8px; font-weight: 600; transition: 0.3s ease; }
+    .btn-outline:hover { background: rgba(56, 189, 248, 0.1); }
     .hero-image img { width: 340px; height: 340px; object-fit: cover; border-radius: 50%; border: 4px solid #38bdf8; box-shadow: 0 0 30px rgba(56, 189, 248, 0.3); }
 
     footer { text-align: center; padding: 30px; background: #111827; color: #cbd5e1; margin-top: 40px; border-top: 1px solid #1e293b; }
 
-    /* 📱 MOBILE RESPONSIVE STYLES (UNDER 900PX) */
+    /* 📱 PROFESSIONAL MOBILE BREAKPOINT (UNDER 900PX) */
     @media (max-width: 900px) {
       body { padding-top: 80px; }
-      .hamburger { display: flex !important; }
+      .hamburger { display: flex; }
+      
+      /* Sleek Slide-In Right Panel Menu */
       nav { 
-        display: none; flex-direction: column; position: absolute; top: 100%; left: 0; 
-        width: 100%; background: #111827; padding: 30px 0; text-align: center; border-top: 1px solid #1e293b; box-shadow: 0 15px 20px rgba(0, 0, 0, 0.6);
+        position: fixed; top: 0; right: -100%; width: 75%; max-width: 320px; height: 100vh; 
+        background: #111827; flex-direction: column; justify-content: center; align-items: center; 
+        gap: 35px; border-left: 1px solid #1e293b;
+        box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
+        transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1); z-index: 1001;
       }
-      nav.active { display: flex !important; }
-      nav a { margin: 15px 0; font-size: 20px; display: block; width: 100%; margin-left: 0; }
-      .hero { flex-direction: column-reverse; text-align: center; padding-top: 30px; gap: 35px; }
+      
+      /* Active Slide State */
+      nav.active { right: 0; }
+      nav a { margin-left: 0; font-size: 20px; font-weight: 600; width: 100%; text-align: center; display: block; }
+      
+      .hero { flex-direction: column-reverse; text-align: center; padding: 20px 5%; gap: 35px; }
       .hero-text h1 { font-size: 42px; }
       .hero-image img { width: 260px; height: 260px; }
       .buttons { justify-content: center; }
@@ -70,7 +90,7 @@
   <header>
     <a href="/" class="logo">JoyTech</a>
     
-    <button class="hamburger" id="hamburger-btn" aria-label="Toggle navigation">
+    <button class="hamburger" id="hamburger-btn" aria-label="Toggle navigation" aria-expanded="false">
       <span></span>
       <span></span>
       <span></span>
@@ -101,22 +121,48 @@
     </div>
   </section>
 
-  <footer><p>© 2026 JoyTech Portfolio | Designed by Joyce William</p></footer>
+  <footer>
+    <p>© 2026 JoyTech Portfolio | Designed by Joyce William</p>
+  </footer>
 
   <script>
     document.addEventListener("DOMContentLoaded", function() {
-      const hamburgerButton = document.getElementById('hamburger-btn');
-      const navigationMenu = document.getElementById('nav-menu');
+      const hamburger = document.getElementById('hamburger-btn');
+      const menu = document.getElementById('nav-menu');
+      const body = document.body;
 
-      if (hamburgerButton && navigationMenu) {
-        hamburgerButton.addEventListener('click', function(event) {
-          event.stopPropagation(); 
-          navigationMenu.classList.toggle('active'); 
+      // Toggle menu state cleanly
+      function toggleMenu() {
+        const isOpen = hamburger.classList.toggle('active');
+        menu.classList.toggle('active');
+        body.classList.toggle('menu-locked');
+        hamburger.setAttribute('aria-expanded', isOpen);
+      }
+
+      if (hamburger && menu) {
+        hamburger.addEventListener('click', function(e) {
+          e.stopPropagation();
+          toggleMenu();
         });
 
-        document.addEventListener('click', function() {
-          if (navigationMenu.classList.contains('active')) {
-            navigationMenu.classList.remove('active');
+        // Close cleanly if a link inside the nav panel is clicked
+        const navLinks = menu.querySelectorAll('a');
+        navLinks.forEach(link => {
+          link.addEventListener('click', () => {
+            hamburger.classList.remove('active');
+            menu.classList.remove('active');
+            body.classList.remove('menu-locked');
+            hamburger.setAttribute('aria-expanded', 'false');
+          });
+        });
+
+        // Close menu immediately if user clicks anywhere outside the sidebar drawer
+        document.addEventListener('click', function(e) {
+          if (menu.classList.contains('active') && !menu.contains(e.target) && !hamburger.contains(e.target)) {
+            hamburger.classList.remove('active');
+            menu.classList.remove('active');
+            body.classList.remove('menu-locked');
+            hamburger.setAttribute('aria-expanded', 'false');
           }
         });
       }
