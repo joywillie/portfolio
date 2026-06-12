@@ -6,12 +6,103 @@
   <title>About Me - JoyTech</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght=300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/css/style.css">
+  
+  <style>
+    /* MAIN SECTION WRAPPER */
+    .about-section {
+      padding: 60px 8%;
+      min-height: 80vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .section-title h2 {
+      font-size: 40px;
+      color: #38bdf8;
+      margin-bottom: 30px;
+      text-align: center;
+    }
+
+    /* TEXT CARD DESIGN */
+    .about-card {
+      background: #1e293b;
+      padding: 40px;
+      border-radius: 15px;
+      max-width: 900px;
+      width: 100%;
+      border: 1px solid #334155;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    }
+
+    .about-p {
+      color: #cbd5e1;
+      font-size: 17px;
+      line-height: 1.8;
+      margin-bottom: 30px;
+      text-align: center;
+    }
+
+    /* CORE FOCUS GRID */
+    .focus-title {
+      font-size: 20px;
+      color: #38bdf8;
+      font-weight: 600;
+      margin-bottom: 20px;
+      text-align: center;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .focus-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      width: 100%;
+    }
+
+    .focus-item {
+      background: #0f172a;
+      padding: 20px;
+      border-radius: 10px;
+      border: 1px solid #334155;
+      text-align: center;
+      transition: border-color 0.3s ease;
+    }
+
+    .focus-item h4 {
+      color: white;
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .focus-item:hover {
+      border-color: #38bdf8;
+    }
+
+    /* RESPONSIVE DESIGN BREAKPOINTS */
+    @media(max-width: 1024px) {
+      .about-section { padding: 40px 5%; }
+      .section-title h2 { font-size: 32px; margin-bottom: 20px; }
+      .about-card { padding: 25px; }
+      .about-p { font-size: 15px; line-height: 1.7; }
+      .focus-grid { grid-template-columns: 1fr; gap: 15px; }
+    }
+  </style>
 </head>
 <body>
+
   <header>
     <a href="/" class="logo">JoyTech</a>
-    <div class="hamburger" id="hamburger-menu"><span></span><span></span><span></span></div>
-    <nav id="nav-links">
+    
+    <button class="hamburger" id="hamburger-btn" aria-label="Toggle navigation" aria-expanded="false">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <nav id="nav-menu">
       <a href="/">Home</a>
       <a href="/about.html" class="active-link">About</a>
       <a href="/skills.html">Skills</a>
@@ -20,12 +111,36 @@
     </nav>
   </header>
 
-  <section>
-    <div class="section-title"><h2>About Me</h2></div>
-    <p class="about-p">I am an ICT Technician. I enjoy building websites, designing mobile apps, and creating attractive digital content. My goal is to grow professionally in software development and UI/UX design.</p>
+  <section class="about-section">
+    <div class="section-title">
+      <h2>About Me</h2>
+    </div>
+    
+    <div class="about-card">
+      <p class="about-p">
+        I am an ICT Technician. I enjoy building websites, designing mobile apps, and creating attractive digital content. My goal is to grow professionally in software development and UI/UX design.
+      </p>
+      
+      <div class="focus-title">Core Areas of Interest</div>
+      
+      <div class="focus-grid">
+        <div class="focus-item">
+          <h4>💻 Web Development</h4>
+        </div>
+        <div class="focus-item">
+          <h4>📱 Mobile App Engineering</h4>
+        </div>
+        <div class="focus-item">
+          <h4>🎨 UI/UX & Graphic Design</h4>
+        </div>
+      </div>
+    </div>
   </section>
 
-  <footer><p>© 2026 JoyTech Portfolio | Designed by Joyce William</p></footer>
+  <footer>
+    <p>© 2026 JoyTech Portfolio | Designed by Joyce William</p>
+  </footer>
+
   <script src="/js/nav.js"></script>
 </body>
 </html>
