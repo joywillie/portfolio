@@ -327,7 +327,7 @@
       </div>
 
       <div class="form-box">
-        <form id="contact-form" action="https://formspree.io/f/YOUR_FORMSPREE_ID" method="POST">
+        <form id="contact-form" action="https://formspree.io/f/xjgledbb" method="POST">
           <input type="text" name="name" placeholder="Your Name" required>
           <input type="email" name="email" placeholder="Your Email" required>
           <textarea name="message" placeholder="Your Message" required></textarea>
@@ -371,9 +371,9 @@
     const submitBtn = document.getElementById("submit-btn");
 
     contactForm.addEventListener("submit", async (event) => {
-      event.preventDefault(); // Prevents the fallback page redirect behavior
+      event.preventDefault(); // Prevents layout disruption page redirects
       
-      // Visual feedback loading state
+      // Loading visual properties state
       submitBtn.disabled = true;
       submitBtn.innerText = "Sending...";
 
