@@ -106,7 +106,38 @@ nav a.active-link {
 }
 
 /* ==========================================================================
-   4. GLOBAL FOOTER STYLES
+   4. HERO PROFILE IMAGE STYLES (Fixes framing, cropping, and centering)
+   ========================================================================== */
+/* Note: If your HTML uses a different class name like .home-img or .hero-image, 
+   just change ".profile-container" below to match your exact HTML class wrapper. */
+.profile-container {
+  position: relative;
+  width: 360px;
+  height: 360px;
+  border-radius: 50%;
+  border: 4px solid #38bdf8;
+  box-shadow: 0 0 25px rgba(56, 189, 248, 0.5);
+  overflow: hidden; /* CRITICAL: Crops the square edges of your image into a perfect circle */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.profile-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;       /* Forces the image to fill the circle without stretching out of shape */
+  object-position: top;    /* Aligns framing to focus on your face/shoulders instead of your suit shirt */
+  transition: transform 0.3s ease-in-out;
+}
+
+/* Smooth zoom transition when someone hovers over your picture */
+.profile-container:hover img {
+  transform: scale(1.05);
+}
+
+/* ==========================================================================
+   5. GLOBAL FOOTER STYLES
    ========================================================================== */
 footer {
   text-align: center;
@@ -123,7 +154,7 @@ footer p {
 }
 
 /* ==========================================================================
-   5. RESPONSIVE MOBILE BREAKPOINT MIGRATION Matrix
+   6. RESPONSIVE MOBILE BREAKPOINT MIGRATION Matrix
    ========================================================================== */
 @media(max-width: 1024px) {
   header {
@@ -160,5 +191,11 @@ footer p {
     font-size: 20px;
     width: 100%;
     text-align: center;
+  }
+
+  /* Scales down the profile circle beautifully on mobile screens */
+  .profile-container {
+    width: 280px;
+    height: 280px;
   }
 }
