@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Contact Me - JoyTech</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght=300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   
   <style>
     /* GLOBAL RESETS & BASE STYLES */
@@ -228,6 +228,12 @@
       background: #0ea5e9;
     }
 
+    .form-box button:disabled {
+      background: #64748b;
+      cursor: not-allowed;
+      color: #cbd5e1;
+    }
+
     /* GLOBAL FOOTER */
     footer {
       text-align: center;
@@ -321,11 +327,11 @@
       </div>
 
       <div class="form-box">
-        <form action="/contact" method="POST">
+        <form id="contact-form" action="https://formspree.io/f/YOUR_FORMSPREE_ID" method="POST">
           <input type="text" name="name" placeholder="Your Name" required>
           <input type="email" name="email" placeholder="Your Email" required>
           <textarea name="message" placeholder="Your Message" required></textarea>
-          <button type="submit">Send Message</button>
+          <button type="submit" id="submit-btn">Send Message</button>
         </form>
       </div>
 
@@ -337,6 +343,9 @@
   </footer>
 
   <script>
+    /* ==========================================================================
+       HAMBURGER DRAWER SYSTEM
+       ========================================================================== */
     const hamburger = document.getElementById("hamburger");
     const nav = document.getElementById("nav");
     const body = document.body;
@@ -353,6 +362,45 @@
         nav.classList.remove("active");
         body.classList.remove("menu-locked");
       });
+    });
+
+    /* ==========================================================================
+       FORMSPREE BACKEND AJAX SUBMISSION
+       ========================================================================== */
+    const contactForm = document.getElementById("contact-form");
+    const submitBtn = document.getElementById("submit-btn");
+
+    contactForm.addEventListener("submit", async (event) => {
+      event.preventDefault(); // Prevents the fallback page redirect behavior
+      
+      // Visual feedback loading state
+      submitBtn.disabled = true;
+      submitBtn.innerText = "Sending...";
+
+      const formData = new FormData(event.target);
+
+      try {
+        const response = await fetch(contactForm.action, {
+          method: contactForm.method,
+          body: formData,
+          headers: {
+            'Accept': 'application/json'
+          }
+        });
+
+        if (response.ok) {
+          alert("✨ Message sent successfully! It has been captured and sent directly to my email.");
+          contactForm.reset(); // Erases fields cleanly
+        } else {
+          alert("⚠️ Oops! There was a problem processing your form submission. Please check your credentials and try again.");
+        }
+      } catch (error) {
+        alert("⚠️ Network pipeline error. Please check your internet connection.");
+      } finally {
+        // Return button back to active status
+        submitBtn.disabled = false;
+        submitBtn.innerText = "Send Message";
+      }
     });
   </script>
 </body>
