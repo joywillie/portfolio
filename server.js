@@ -21,8 +21,10 @@ const pool = new Pool({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Static asset delivery pipelines
 app.use('/css', express.static(path.join(__dirname, 'css')));
 app.use('/js', express.static(path.join(__dirname, 'js')));
+app.use('/images', express.static(path.join(__dirname, 'images'))); // 👈 FIX: Added to serve your profile picture folder!
 app.use(express.static(path.join(__dirname, 'public')));
 
 // NATIVE COOKIE PARSER MIDDLEWARE FUNCTION
