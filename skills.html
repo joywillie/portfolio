@@ -1,314 +1,99 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <script>
+    if (!localStorage.getItem("token")) {
+      window.location.href = "/signin";
+    }
+  </script>
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Skills - JoyTech</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght=300;400;500;600;700&display=swap" rel="stylesheet">
+  <title>Skills | JoyTech</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   
   <style>
-    /* GLOBAL RESETS & BASE STYLES */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Poppins', sans-serif;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      background: #0f172a;
-      color: white;
-      padding-top: 90px;
-      overflow-x: hidden;
-    }
-
-    body.menu-locked {
-      overflow: hidden;
-    }
-
-    /* GLOBAL NAVIGATION STYLES */
-    header {
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 20px 8%;
-      background: #111827;
-      position: fixed;
-      top: 0;
-      left: 0;
-      z-index: 1000;
-      border-bottom: 1px solid #1e293b;
-    }
-
-    .logo {
-      font-size: 28px;
-      font-weight: 700;
-      color: #38bdf8;
-      text-decoration: none;
-    }
-
-    nav {
-      display: flex;
-      align-items: center;
-    }
-
-    nav a {
-      color: white;
-      text-decoration: none;
-      margin-left: 30px;
-      font-weight: 500;
-      transition: 0.3s;
-    }
-
-    nav a:hover {
-      color: #38bdf8;
-    }
-
-    nav a.active-link {
-      color: #38bdf8;
-    }
-
-    .hamburger {
-      display: none;
-      flex-direction: column;
-      justify-content: space-between;
-      width: 28px;
-      height: 20px;
-      background: none;
-      border: none;
-      cursor: pointer;
-      z-index: 1002;
-      padding: 0;
-    }
-
-    .hamburger span {
-      display: block;
-      width: 100%;
-      height: 3px;
-      background: #38bdf8;
-      border-radius: 5px;
-      transition: 0.3s;
-    }
-
-    .hamburger.active span:nth-child(1) {
-      transform: translateY(8px) rotate(45deg);
-    }
-
-    .hamburger.active span:nth-child(2) {
-      opacity: 0;
-    }
-
-    .hamburger.active span:nth-child(3) {
-      transform: translateY(-9px) rotate(-45deg);
-    }
-
-    /* CONTENT SECTION LAYOUT */
-    .skills-section {
-      padding: 60px 8%;
-      min-height: 80vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
-
-    .section-title h2 {
-      font-size: 40px;
-      color: #38bdf8;
-      margin-bottom: 40px;
-      text-align: center;
-    }
-
-    /* RESPONSIVE GRID CONFIGURATION */
-    .skills-container {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 25px;
-      max-width: 1200px;
-      margin: 0 auto;
-      width: 100%;
-    }
-
-    /* PREMIUM INTERACTIVE SKILL CARDS */
-    .skill-card {
-      background: #1e293b;
-      padding: 35px 25px;
-      border-radius: 12px;
-      text-align: center;
-      border: 1px solid #334155;
-      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-      gap: 12px;
-    }
-
-    .skill-card h3 {
-      color: white;
-      font-size: 20px;
-      font-weight: 600;
-      transition: color 0.3s ease;
-    }
-
-    .skill-card p {
-      color: #94a3b8;
-      font-size: 14px;
-      line-height: 1.6;
-    }
-
-    /* Custom visual icons for your technical stack */
-    .skill-card::before {
-      font-size: 36px;
-      margin-bottom: 5px;
-    }
-    .skill-web::before { content: "🌐"; }
-    .skill-mobile::before { content: "📱"; }
-    .skill-hardware::before { content: "🔧"; }
-    .skill-network::before { content: "📡"; }
-    .skill-design::before { content: "🎨"; }
-
-    /* Elevate elements on cursor hover */
-    .skill-card:hover {
-      transform: translateY(-8px);
-      border-color: #38bdf8;
-      box-shadow: 0 12px 30px rgba(56, 189, 248, 0.15);
-    }
-
-    .skill-card:hover h3 {
-      color: #38bdf8;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+    body { background: #0f172a; color: #ffffff; min-height: 100vh; display: flex; flex-direction: column; }
     
-    .skill-card:hover p {
-      color: #cbd5e1;
-    }
+    header { background: #0f172a; padding: 20px 80px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #1e293b; }
+    .logo a { color: #38bdf8; font-size: 26px; font-weight: 700; text-decoration: none; }
+    nav { display: flex; align-items: center; gap: 30px; }
+    nav a { color: #cbd5e1; text-decoration: none; font-size: 16px; font-weight: 500; transition: 0.3s; }
+    nav a:hover { color: #38bdf8; }
 
-    /* GLOBAL FOOTER */
-    footer {
-      text-align: center;
-      padding: 25px;
-      background: #111827;
-      border-top: 1px solid #1e293b;
-      margin-top: 40px;
-    }
-
-    /* MOBILE OPTIMIZATION MATRIX */
-    @media(max-width: 1024px) {
-      .hamburger {
-        display: flex;
-      }
-
-      nav {
-        position: fixed;
-        top: 0;
-        right: -100%;
-        width: 70%;
-        height: 100vh;
-        background: #111827;
-        flex-direction: column;
-        justify-content: center;
-        gap: 30px;
-        transition: 0.4s;
-        border-left: 1px solid #1e293b;
-      }
-
-      nav.active {
-        right: 0;
-      }
-
-      nav a {
-        margin-left: 0;
-        font-size: 20px;
-        width: 100%;
-        text-align: center;
-      }
-
-      .skills-section { padding: 40px 5%; }
-      .section-title h2 { font-size: 32px; margin-bottom: 25px; }
-      .skills-container { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
-    }
+    .content-container { max-width: 1200px; margin: auto; padding: 60px 40px; flex-grow: 1; width: 100%; }
+    h1 { font-size: 42px; font-weight: 700; margin-bottom: 40px; color: #38bdf8; text-align: center; }
+    
+    .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; }
+    .skill-card { background: #1e293b; padding: 30px; border-radius: 12px; border: 1px solid #334155; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
+    .skill-card h3 { color: #38bdf8; font-size: 20px; margin-bottom: 15px; border-bottom: 2px solid #334155; padding-bottom: 8px; }
+    .skill-card ul { list-style: none; color: #cbd5e1; }
+    .skill-card ul li { margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
+    .skill-card ul li::before { content: "⚡"; color: #38bdf8; font-size: 14px; }
+    
+    @media (max-width: 768px) { header { padding: 20px 40px; } }
   </style>
 </head>
 <body>
 
   <header>
-    <a href="/" class="logo">JoyTech</a>
-    
-    <button class="hamburger" id="hamburger" aria-label="Toggle navigation menu">
-      <span></span>
-      <span></span>
-      <span></span>
-    </button>
-
-    <nav id="nav">
+    <div class="logo"><a href="/">JoyTech</a></div>
+    <nav>
       <a href="/">Home</a>
-      <a href="/about.html">About</a>
-      <a href="/skills.html" class="active-link">Skills</a>
-      <a href="/projects.html">Projects</a>
-      <a href="/contact.html">Contact</a>
+      <a href="/about">About</a>
+      <a href="/skills" style="color: #38bdf8;">Skills</a>
+      <a href="/projects">Projects</a>
+      <a href="/contact">Contact</a>
+      <div id="dynamic-auth-root" style="display: inline-block;"></div>
     </nav>
   </header>
 
-  <section class="skills-section">
-    <div class="section-title">
-      <h2>My Skills</h2>
+  <main class="content-container">
+    <h1>Technical Skills</h1>
+    <div class="skills-grid">
+      <div class="skill-card">
+        <h3>Software Engineering</h3>
+        <ul>
+          <li>Full-Stack JavaScript (Node.js & Express)</li>
+          <li>Database Architecture (Neon SQL & PostgreSQL)</li>
+          <li>Mobile App Frameworks (Flutter & Dart)</li>
+          <li>Frontend Development (HTML5, CSS3, modern JavaScript)</li>
+        </ul>
+      </div>
+      <div class="skill-card">
+        <h3>IT Operations & Diagnostics</h3>
+        <ul>
+          <li>Hardware Architecture Diagnostics & Assembly</li>
+          <li>Command Line Environments & Troubleshooting</li>
+          <li>Enterprise Data System Integration</li>
+          <li>Local Area Networking & Device Management</li>
+        </ul>
+      </div>
+      <div class="skill-card">
+        <h3>Design & Application</h3>
+        <ul>
+          <li>UI/UX Digital Interface Prototyping</li>
+          <li>Graphic Design Asset Management (Canva Engine)</li>
+          <li>Institutional Digital Branding & Graphics</li>
+          <li>Technical Flow Design Architecture</li>
+        </ul>
+      </div>
     </div>
-    
-    <div class="skills-container">
-      
-      <div class="skill-card skill-web">
-        <h3>Full-Stack Web Dev</h3>
-        <p>Building clean, database-driven applications using PHP, MySQL, HTML5, CSS3, and JavaScript.</p>
-      </div>
-
-      <div class="skill-card skill-mobile">
-        <h3>Mobile App Dev</h3>
-        <p>Engineering cross-platform mobile interfaces using the Flutter framework paired with Firebase backend utilities.</p>
-      </div>
-
-      <div class="skill-card skill-hardware">
-        <h3>Hardware & ICT Support</h3>
-        <p>Performing diagnostic system troubleshooting, PC component repair, and clean operating system installations.</p>
-      </div>
-
-      <div class="skill-card skill-network">
-        <h3>Network Infrastructure</h3>
-        <p>Configuring local area networks, handling router administration setups, and maintaining active network links.</p>
-      </div>
-
-      <div class="skill-card skill-design">
-        <h3>Digital Graphic Design</h3>
-        <p>Creating professional branding, customized flyers, and creative layout designs using Adobe Photoshop and Canva.</p>
-      </div>
-
-    </div>
-  </section>
-
-  <footer>
-    <p>© 2026 JoyTech Portfolio | Designed by Joyce William</p>
-  </footer>
+  </main>
 
   <script>
-    const hamburger = document.getElementById("hamburger");
-    const nav = document.getElementById("nav");
-    const body = document.body;
-
-    hamburger.addEventListener("click", () => {
-      hamburger.classList.toggle("active");
-      nav.classList.toggle("active");
-      body.classList.toggle("menu-locked");
-    });
-
-    document.querySelectorAll("nav a").forEach(link => {
-      link.addEventListener("click", () => {
-        hamburger.classList.remove("active");
-        nav.classList.remove("active");
-        body.classList.remove("menu-locked");
-      });
+    document.addEventListener("DOMContentLoaded", () => {
+      const authRoot = document.getElementById("dynamic-auth-root");
+      const sessionToken = localStorage.getItem("token");
+      if (sessionToken) {
+        authRoot.innerHTML = `<a href="#" id="logout-trigger-btn" style="background: #ef4444; color: white; padding: 8px 18px; border-radius: 6px; font-weight: 600; text-decoration: none; font-size: 15px;">Sign Out</a>`;
+        document.getElementById("logout-trigger-btn").addEventListener("click", (e) => {
+          e.preventDefault(); localStorage.removeItem("token"); alert("👋 Signed out safely!"); window.location.href = "/signin";
+        });
+      } else {
+        authRoot.innerHTML = `<a href="/signin" style="background: #38bdf8; color: #0f172a; padding: 8px 18px; border-radius: 6px; font-weight: 600; text-decoration: none; font-size: 15px;">Sign In</a>`;
+      }
     });
   </script>
 </body>
