@@ -32,7 +32,14 @@
 
     .hero-image-root { position: relative; display: flex; justify-content: center; align-items: center; }
     .profile-glow-ring { width: 350px; height: 350px; border-radius: 50%; border: 3px solid #38bdf8; box-shadow: 0 0 25px rgba(56, 189, 248, 0.6); overflow: hidden; }
-    .profile-glow-ring img { width: 100%; height: 100%; object-fit: cover; }
+    
+    /* 🟢 THE IMAGE FIX IS RIGHT HERE */
+    .profile-glow-ring img { 
+      width: 100%; 
+      height: 100%; 
+      object-fit: cover; 
+      object-position: top; /* This pushes the frame down to show your face perfectly! */
+    }
 
     @media (max-width: 968px) {
       header { padding: 20px 40px; }
