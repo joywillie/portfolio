@@ -72,18 +72,24 @@
       color: #38bdf8;
     }
 
+    /* HAMBURGER REPAIRED */
     .hamburger {
       display: none;
       flex-direction: column;
+      justify-content: space-between; /* Fixes "X" alignment on transform */
       width: 28px;
       height: 20px;
       background: none;
       border: none;
       cursor: pointer;
       z-index: 1002;
+      padding: 0;
     }
 
+    /* SPANS REPAIRED (Now visible) */
     .hamburger span {
+      display: block;
+      width: 100%;
       height: 3px;
       background: #38bdf8;
       border-radius: 5px;
@@ -99,7 +105,7 @@
     }
 
     .hamburger.active span:nth-child(3) {
-      transform: translateY(-8px) rotate(-45deg);
+      transform: translateY(-9px) rotate(-45deg);
     }
 
     .hero {
@@ -165,7 +171,6 @@
       background: rgba(56, 189, 248, 0.1);
     }
 
-    /* PROFILE IMAGE (IMPORTANT FIXED) */
     .hero-image img {
       width: 340px;
       height: 340px;
@@ -188,7 +193,7 @@
       margin-top: 40px;
     }
 
-    /* RESPONSIVE */
+    /* RESPONSIVE RESPONSIVENESS REPAIRED */
     @media (max-width: 1024px) {
       .hamburger {
         display: flex;
@@ -205,15 +210,25 @@
         justify-content: center;
         gap: 30px;
         transition: 0.4s;
+        border-left: 1px solid #1e293b;
       }
 
       nav.active {
         right: 0;
       }
 
+      /* Fix alignment on mobile menu links */
+      nav a {
+        margin-left: 0;
+        font-size: 20px;
+        width: 100%;
+        text-align: center;
+      }
+
       .hero {
         flex-direction: column-reverse;
         text-align: center;
+        padding-top: 20px;
       }
 
       .hero-text h1 {
@@ -237,7 +252,7 @@
 <header>
   <a href="/" class="logo">JoyTech</a>
 
-  <button class="hamburger" id="hamburger">
+  <button class="hamburger" id="hamburger" aria-label="Toggle navigation menu">
     <span></span>
     <span></span>
     <span></span>
@@ -270,7 +285,6 @@
   </div>
 
   <div class="hero-image">
-    <!-- IMPORTANT: image is in SAME folder -->
     <img src="image1.jpg" alt="Joyce William Profile Image">
   </div>
 </section>
