@@ -46,13 +46,13 @@
 
   <header>
     <div class="logo"><a href="/">JoyTech</a></div>
-    <nav id="main-nav-bar">
+    <nav>
       <a href="/">Home</a>
       <a href="/about">About</a>
       <a href="/skills">Skills</a>
       <a href="/projects">Projects</a>
       <a href="/contact">Contact</a>
-      </nav>
+    </nav>
   </header>
 
   <main class="hero-container">
@@ -69,35 +69,10 @@
 
     <div class="hero-image-root">
       <div class="profile-glow-ring">
-        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=600" alt="Joyce William Profile Photo">
+        <img src="profile.jpg" alt="Joyce William Profile Photo">
       </div>
     </div>
   </main>
 
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const navBar = document.getElementById("main-nav-bar");
-      const sessionToken = localStorage.getItem("token");
-
-      if (sessionToken) {
-        // Logged In: Show a clean, red Sign Out text link right next to Contact
-        navBar.insertAdjacentHTML('beforeend', `
-          <a href="#" id="logout-trigger-btn" style="color: #ef4444; font-weight: 600;">Sign Out</a>
-        `);
-        
-        document.getElementById("logout-trigger-btn").addEventListener("click", (e) => {
-          e.preventDefault();
-          localStorage.removeItem("token");
-          alert("👋 Signed out safely!");
-          window.location.href = "/signin";
-        });
-      } else {
-        // Logged Out: Show a bright cyan Sign In text link
-        navBar.insertAdjacentHTML('beforeend', `
-          <a href="/signin" style="color: #38bdf8; font-weight: 600;">Sign In</a>
-        `);
-      }
-    });
-  </script>
 </body>
 </html>
