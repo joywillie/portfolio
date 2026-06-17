@@ -1,5 +1,31 @@
 /* ==========================================================================
-   GLOBAL HEADER & NAVIGATION LAYOUT
+   1. GLOBAL RESETS & BASE LAYOUT
+   ========================================================================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: #0f172a;
+  color: white;
+  padding-top: 90px; /* Prevents your section content from slipping behind the fixed header */
+  overflow-x: hidden;
+}
+
+/* Prevents background scrolling when the mobile navigation drawer is open */
+body.menu-locked {
+  overflow: hidden;
+}
+
+/* ==========================================================================
+   2. GLOBAL HEADER & NAVIGATION LAYOUT
    ========================================================================== */
 header {
   position: fixed;
@@ -10,102 +36,129 @@ header {
   display: flex;
   justify-content: space-between; /* Pushes logo to left, nav/hamburger to right */
   align-items: center;
-  background: #0f172a; /* Matches your dark theme background */
+  background: #111827; /* Deep, uniform dark gray/blue */
   border-bottom: 1px solid #1e293b;
-  z-index: 1000; /* Keeps header floating above all content */
+  z-index: 1000; /* Keeps header floating safely above all content page elements */
 }
 
 .logo {
-  font-size: 24px;
+  font-size: 28px;
   font-weight: 700;
   color: #38bdf8;
   text-decoration: none;
 }
 
-/* DESKTOP NAVIGATION (Hidden on mobile later) */
-#nav-menu {
+/* DESKTOP NAVIGATION */
+nav {
   display: flex;
-  gap: 30px;
+  align-items: center;
 }
 
-#nav-menu a {
-  color: #cbd5e1;
+nav a {
+  color: white;
   text-decoration: none;
+  margin-left: 30px;
   font-weight: 500;
   transition: color 0.3s ease;
 }
 
-#nav-menu a:hover, 
-#nav-menu a.active-link {
+nav a:hover,
+nav a.active-link {
   color: #38bdf8;
 }
 
 /* ==========================================================================
-   HAMBURGER BUTTON (Top Right Placement Matrix)
+   3. HAMBURGER BUTTON (Responsive Activation)
    ========================================================================== */
-#hamburger-btn {
+.hamburger {
   display: none; /* Hidden on desktop screens by default */
+  flex-direction: column;
+  justify-content: space-between;
+  width: 28px;
+  height: 20px;
   background: none;
   border: none;
   cursor: pointer;
-  flex-direction: column;
-  gap: 6px;
-  padding: 5px;
-  z-index: 1010; /* Sits higher than the nav menu drawer */
+  z-index: 1002; /* Sits higher than the navigation slide-out drawer overlay */
+  padding: 0;
 }
 
-#hamburger-btn span {
+.hamburger span {
   display: block;
-  width: 30px;
+  width: 100%;
   height: 3px;
   background-color: #38bdf8; /* Sleek cyan bars */
-  border-radius: 2px;
+  border-radius: 5px;
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+/* HAMBURGER TO "X" MORPH ANIMATIONS */
+.hamburger.active span:nth-child(1) {
+  transform: translateY(8px) rotate(45deg);
+}
+
+.hamburger.active span:nth-child(2) {
+  opacity: 0; /* Fades out middle bar smoothly */
+}
+
+.hamburger.active span:nth-child(3) {
+  transform: translateY(-9px) rotate(-45deg);
+}
+
 /* ==========================================================================
-   RESPONSIVE MOBILE BREAKPOINT (Under 768px)
+   4. GLOBAL FOOTER STYLES
    ========================================================================== */
-@media (max-width: 768px) {
+footer {
+  text-align: center;
+  padding: 25px;
+  background: #111827;
+  border-top: 1px solid #1e293b;
+  margin-top: 40px;
+  width: 100%;
+}
+
+footer p {
+  color: #cbd5e1;
+  font-size: 14px;
+}
+
+/* ==========================================================================
+   5. RESPONSIVE MOBILE BREAKPOINT MIGRATION Matrix
+   ========================================================================== */
+@media(max-width: 1024px) {
   header {
-    padding: 15px 5%; /* Snugs up padding on smaller screens */
+    padding: 15px 5%; /* Snugs up header spacing on smaller viewport displays */
   }
 
-  #hamburger-btn {
-    display: flex; /* Activates and displays on the top right naturally */
+  .hamburger {
+    display: flex; /* Activates and displays on the top right natively */
   }
 
-  /* Mobile Full-Screen/Drop-down Drawer Menu */
-  #nav-menu {
+  /* Mobile Drop-down Slide-out Drawer Menu */
+  nav {
     position: fixed;
     top: 0;
-    right: -100%; /* Hides it completely off-screen to the right */
-    width: 70%; /* Takes up a clean portion of the screen when pulled out */
+    right: -100%; /* Hidden off-screen right limits by default */
+    width: 70%; /* Clean sliding page presence configuration */
     height: 100vh;
-    background: #1e293b;
+    background: #111827;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
-    gap: 40px;
-    transition: right 0.4s ease-in-out;
+    gap: 30px;
+    transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    border-left: 1px solid #1e293b;
     box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
   }
 
-  /* When JS toggles '.active' via your click handler */
-  #nav-menu.active {
-    right: 0; /* Slides out smoothly from the right side */
+  /* When interactive JS toggles '.active' on click events */
+  nav.active {
+    right: 0; /* Slides out from the right side boundaries seamlessly */
   }
 
-  /* HAMBURGER TO "X" MORPH ANIMATIONS */
-  #hamburger-btn.active span:nth-child(1) {
-    transform: translateY(9px) rotate(45deg);
-  }
-
-  #hamburger-btn.active span:nth-child(2) {
-    opacity: 0; /* Fades out middle bar */
-  }
-
-  #hamburger-btn.active span:nth-child(3) {
-    transform: translateY(-9px) rotate(-45deg);
+  nav a {
+    margin-left: 0;
+    font-size: 20px;
+    width: 100%;
+    text-align: center;
   }
 }
