@@ -1,6 +1,6 @@
 {
   "name": "joytech-portfolio",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Production-ready personal portfolio backend with secure PostgreSQL integration.",
   "main": "server.js",
   "scripts": {
@@ -11,6 +11,7 @@
     "portfolio",
     "express",
     "postgresql",
+    "multer",
     "joytech"
   ],
   "author": "Joyce William",
@@ -22,6 +23,7 @@
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "jsonwebtoken": "^9.0.2",
+    "multer": "^1.4.5-lts.1",
     "pg": "^8.11.5"
   },
   "devDependencies": {
