@@ -7,17 +7,17 @@
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }
         body { background-color: #0f172a; color: #ffffff; min-height: 100vh; display: flex; flex-direction: column; }
-        nav { display: flex; justify-content: space-between; align-items: center; padding: 24px 8%; border-bottom: 1px solid #1e293b; background: #0f172a; }
-        nav .brand { font-size: 22px; font-weight: bold; color: #38bdf8; text-decoration: none; }
-        nav .links { display: flex; gap: 24px; }
-        nav .links a { color: #94a3b8; text-decoration: none; font-size: 16px; font-weight: 500; }
+        nav { display: flex; justify-content: space-between; align-items: center; padding: 24px 8%; background: #0f172a; border-bottom: 1px solid rgba(255,255,255,0.03); }
+        nav .brand { font-size: 26px; font-weight: bold; color: #38bdf8; text-decoration: none; }
+        nav .links { display: flex; gap: 28px; }
+        nav .links a { color: #94a3b8; text-decoration: none; font-size: 16px; }
         nav .links a:hover, nav .links a.active { color: #38bdf8; }
-        .container { max-width: 900px; margin: 60px auto; padding: 0 20px; width: 100%; }
-        h1 { font-size: 36px; margin-bottom: 20px; color: #ffffff; border-bottom: 2px solid #1e293b; padding-bottom: 10px; }
-        .bio-text { font-size: 18px; color: #cbd5e1; line-height: 1.8; background: #1e293b; padding: 30px; border-radius: 12px; border: 1px solid #334155; }
-        .infused-card { background: #1e293b; border: 1px solid #334155; padding: 30px; border-radius: 12px; margin-top: 30px; }
-        .infused-card h2 { color: #38bdf8; font-size: 24px; margin-bottom: 14px; }
-        .infused-card p { color: #cbd5e1; font-size: 16px; line-height: 1.7; white-space: pre-wrap; }
+        .container { max-width: 1000px; margin: 60px auto; padding: 0 8%; width: 100%; }
+        h1 { font-size: 36px; margin-bottom: 24px; color: #ffffff; border-bottom: 1px solid #1e293b; padding-bottom: 12px; }
+        .bio-box { font-size: 17px; color: #cbd5e1; line-height: 1.8; background: #1e293b; padding: 35px; border-radius: 12px; border: 1px solid #334155; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        .custom-block { background: #1e293b; border: 1px solid #334155; padding: 35px; border-radius: 12px; margin-top: 35px; }
+        .custom-block h2 { color: #38bdf8; font-size: 26px; margin-bottom: 16px; }
+        .custom-block p { color: #cbd5e1; font-size: 16px; line-height: 1.8; white-space: pre-wrap; }
     </style>
 </head>
 <body>
@@ -34,8 +34,8 @@
     </nav>
 
     <div class="container">
-        <h1>Professional Biography</h1>
-        <p class="bio-text" id="about-bio-render">Loading biography matrix statement...</p>
+        <h1>About Me</h1>
+        <p class="bio-box" id="about-bio-display">Sourcing dynamic metadata records matrix node elements...</p>
         
         <div id="infinite-custom-sections"></div>
     </div>
@@ -44,12 +44,12 @@
         fetch('/api/public/site-data')
             .then(res => res.json())
             .then(data => {
-                if(data.fixedText.about_bio) document.getElementById('about-bio-render').innerText = data.fixedText.about_bio;
+                if(data.fixedText.about_bio) document.getElementById('about-bio-display').innerText = data.fixedText.about_bio;
 
                 const customContainer = document.getElementById('infinite-custom-sections');
                 const aboutBlocks = data.customSections.filter(sec => sec.page_target === 'about');
                 customContainer.innerHTML = aboutBlocks.map(sec => `
-                    <div class="infused-card">
+                    <div class="custom-block">
                         <h2>${sec.section_title}</h2>
                         <p>${sec.section_content}</p>
                     </div>
