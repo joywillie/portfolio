@@ -293,10 +293,10 @@
 
     <nav id="nav">
       <a href="/">Home</a>
-      <a href="/about.html">About</a>
-      <a href="/skills.html">Skills</a>
-      <a href="/projects.html">Projects</a>
-      <a href="/contact.html" class="active-link">Contact</a>
+      <a href="/about">About</a>
+      <a href="/skills">Skills</a>
+      <a href="/projects">Projects</a>
+      <a href="/contact" class="active-link">Contact</a>
     </nav>
   </header>
 
@@ -376,7 +376,6 @@
       submitBtn.disabled = true;
       submitBtn.innerText = "Sending...";
 
-      // Parse fields directly into JSON for our Node server backend
       const formData = new FormData(contactForm);
       const data = Object.fromEntries(formData.entries());
 
@@ -391,11 +390,10 @@
         });
 
         if (response.ok) {
-          // Polished public success notification text
           alert("✨ Message sent successfully! Thank you for reaching out, I will get back to you shortly.");
           contactForm.reset(); 
         } else {
-          alert("⚠️ Oops! There was a problem processing your form submission. Please check your credentials and try again.");
+          alert("⚠️ Oops! There was a problem processing your form submission. Please try again.");
         }
       } catch (error) {
         alert("⚠️ Network pipeline error. Please check your internet connection.");
