@@ -4,12 +4,14 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
 const path = require('path');
+const fs = require('fs');
 require('dotenv').config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 const JWT_SECRET = process.env.JWT_SECRET || 'joytech_secret_key_2026';
 
+// 🗄️ Neon PostgreSQL Connection
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: { rejectUnauthorized: false }
@@ -19,7 +21,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true })); 
 app.use(cookieParser());
 
-// 🔒 Authentication Gateway Protection
+/**
+ * 🔒 AUTHENTICATION GATEWAY PROTECTION (RESTORED!)
+ * This blocks logged-out users from seeing your portfolio pages.
+ */
 const requireAuth = (req, res, next) => {
   const token = req.cookies.auth_token;
   if (!token) return res.redirect('/signin');
@@ -32,16 +37,11 @@ const requireAuth = (req, res, next) => {
   }
 };
 
-// 🌐 Serve Clean HTML Auth Pages Directly
-app.get('/signin', (req, res) => {
-  res.sendFile(path.join(__dirname, 'signin.html'));
-});
+// 🌐 Serve Authentication Pages
+app.get('/signin', (req, res) => res.sendFile(path.join(__dirname, 'signin.html')));
+app.get('/signup', (req, res) => res.sendFile(path.join(__dirname, 'signup.html')));
 
-app.get('/signup', (req, res) => {
-  res.sendFile(path.join(__dirname, 'signup.html'));
-});
-
-// ⚙️ Backend Database Sign Up Integration
+// ⚙️ Database Sign Up Route
 app.post('/api/auth/signup', async (req, res) => {
   try {
     const { fullName, email, password } = req.body;
@@ -56,7 +56,7 @@ app.post('/api/auth/signup', async (req, res) => {
   }
 });
 
-// ⚙️ Backend Database Sign In Integration
+// ⚙️ Database Sign In Route
 app.post('/api/auth/signin', async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -78,7 +78,41 @@ app.get('/logout', (req, res) => {
   res.redirect('/signin');
 });
 
-// 🔒 Protected Website Routes (Brings up your main layouts when authorized)
+/**
+ * 📨 FIX FOR THE CONTACT FORM ISSUE
+ * Returns clean JSON status responses so your frontend script doesn't throw errors!
+ */
+app.post('/contact', async (req, res) => {
+  const { name, email, message } = req.body;
+  
+  try {
+    // 1. Save message directly into Neon PostgreSQL
+    await pool.query(
+      'INSERT INTO contact_messages (name, email, message) VALUES ($1, $2, $3)', 
+      [name, email, message]
+    );
+
+    // 2. Forward to Formspree behind the scenes
+    try {
+      await fetch("https://formspree.io/f/xjgledbb", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Accept": "application/json" },
+        body: JSON.stringify({ name, email, message })
+      });
+    } catch (formspreeErr) {
+      console.error("Formspree backup link dropped, but data was saved locally!");
+    }
+
+    // ✨ Send clean JSON success code back to contact.html script
+    return res.status(200).json({ success: true });
+
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ success: false });
+  }
+});
+
+// 🔒 PROTECTED PORTFOLIO PAGES (SECURED AGAIN!)
 app.get('/', requireAuth, (req, res) => res.sendFile(path.join(__dirname, 'index.html')));
 app.get('/about', requireAuth, (req, res) => res.sendFile(path.join(__dirname, 'about.html')));
 app.get('/skills', requireAuth, (req, res) => res.sendFile(path.join(__dirname, 'skills.html')));
@@ -86,4 +120,4 @@ app.get('/projects', requireAuth, (req, res) => res.sendFile(path.join(__dirname
 app.get('/contact', requireAuth, (req, res) => res.sendFile(path.join(__dirname, 'contact.html')));
 
 app.use(express.static(__dirname));
-app.listen(PORT, () => console.log(`🚀 Clean system running on port ${PORT}`));
+app.listen(PORT, () => console.log(`🚀 Secure Protected Gateway running on port ${PORT}`));
