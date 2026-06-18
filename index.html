@@ -1,85 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>JoyTech Portfolio</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
-    body { background: #0f172a; color: #ffffff; min-height: 100vh; display: flex; flex-direction: column; overflow-x: hidden; }
-    
-    header { background: #0f172a; padding: 20px 80px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #1e293b; }
-    .logo a { color: #38bdf8; font-size: 26px; font-weight: 700; text-decoration: none; }
-    
-    nav { display: flex; align-items: center; gap: 30px; }
-    nav a { color: #cbd5e1; text-decoration: none; font-size: 16px; font-weight: 500; transition: color 0.3s ease; }
-    nav a:hover { color: #38bdf8; }
-
-    .hero-container { max-width: 1200px; margin: auto; padding: 40px 80px; display: flex; justify-content: space-between; align-items: center; gap: 50px; flex-grow: 1; }
-    .hero-text { flex: 1; max-width: 600px; }
-    .hero-text h3 { color: #38bdf8; font-size: 18px; font-weight: 500; margin-bottom: 10px; }
-    .hero-text h1 { font-size: 56px; font-weight: 700; line-height: 1.2; margin-bottom: 15px; }
-    .hero-text h2 { font-size: 24px; color: #cbd5e1; font-weight: 600; margin-bottom: 20px; }
-    .hero-text p { color: #94a3b8; font-size: 16px; line-height: 1.6; margin-bottom: 35px; }
-    
-    .cta-group { display: flex; gap: 20px; }
-    .btn-primary { background: #38bdf8; color: #0f172a; padding: 12px 28px; border-radius: 8px; font-weight: 600; text-decoration: none; transition: background 0.3s ease; }
-    .btn-primary:hover { background: #0ea5e9; }
-    .btn-secondary { background: transparent; color: #38bdf8; border: 2px solid #38bdf8; padding: 10px 26px; border-radius: 8px; font-weight: 600; text-decoration: none; transition: all 0.3s ease; }
-    .btn-secondary:hover { background: rgba(56, 189, 248, 0.1); }
-
-    .hero-image-root { position: relative; display: flex; justify-content: center; align-items: center; }
-    .profile-glow-ring { width: 350px; height: 350px; border-radius: 50%; border: 3px solid #38bdf8; box-shadow: 0 0 25px rgba(56, 189, 248, 0.6); overflow: hidden; }
-    
-    /* 🟢 THE IMAGE FIX IS RIGHT HERE */
-    .profile-glow-ring img { 
-      width: 100%; 
-      height: 100%; 
-      object-fit: cover; 
-      object-position: top; /* This pushes the frame down to show your face perfectly! */
-    }
-
-    @media (max-width: 968px) {
-      header { padding: 20px 40px; }
-      .hero-container { flex-direction: column-reverse; text-align: center; padding: 40px 40px; }
-      .cta-group { justify-content: center; }
-      .profile-glow-ring { width: 280px; height: 280px; }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JoyTech Portfolio - Home</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }
+        body { background-color: #0f172a; color: #ffffff; min-height: 100vh; display: flex; flex-direction: column; }
+        nav { display: flex; justify-content: space-between; align-items: center; padding: 24px 8%; border-bottom: 1px solid #1e293b; background: #0f172a; }
+        nav .brand { font-size: 22px; font-weight: bold; color: #38bdf8; text-decoration: none; }
+        nav .links { display: flex; gap: 24px; }
+        nav .links a { color: #94a3b8; text-decoration: none; font-size: 16px; font-weight: 500; transition: color 0.2s; }
+        nav .links a:hover, nav .links a.active { color: #38bdf8; }
+        .hero { max-width: 800px; margin: 100px auto; padding: 0 20px; text-align: center; }
+        .hero h1 { font-size: 48px; color: #ffffff; margin-bottom: 16px; }
+        .hero h3 { font-size: 24px; color: #38bdf8; margin-bottom: 24px; font-weight: 600; }
+        .hero p { font-size: 18px; color: #94a3b8; line-height: 1.8; }
+        .container { max-width: 1000px; margin: 0 auto 60px auto; padding: 0 20px; width: 100%; }
+        .infused-card { background: #1e293b; border: 1px solid #334155; padding: 30px; border-radius: 12px; margin-top: 30px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+        .infused-card h2 { color: #38bdf8; font-size: 24px; margin-bottom: 14px; }
+        .infused-card p { color: #cbd5e1; font-size: 16px; line-height: 1.7; white-space: pre-wrap; }
+    </style>
 </head>
 <body>
 
-  <header>
-    <div class="logo"><a href="/">JoyTech</a></div>
     <nav>
-      <a href="/">Home</a>
-      <a href="/about">About</a>
-      <a href="/skills">Skills</a>
-      <a href="/projects">Projects</a>
-      <a href="/contact">Contact</a>
+        <a href="/" class="brand">JoyTech</a>
+        <div class="links">
+            <a href="/" class="active">Home</a>
+            <a href="/about">About</a>
+            <a href="/skills">Skills</a>
+            <a href="/projects">Projects</a>
+            <a href="/contact">Contact</a>
+            <a href="/admin" style="border-left: 1px solid #334155; padding-left: 15px; color: #a855f7;">CMS Panel</a>
+        </div>
     </nav>
-  </header>
 
-  <main class="hero-container">
-    <div class="hero-text">
-      <h3>Hello, I'm</h3>
-      <h1>Joyce William</h1>
-      <h2>ICT Technician & Web Developer</h2>
-      <p>Passionate about web development, UI design, mobile applications, and building modern digital experiences.</p>
-      <div class="cta-group">
-        <a href="/projects" class="btn-primary">View Projects</a>
-        <a href="/contact" class="btn-secondary">Contact Me</a>
-      </div>
-    </div>
+    <section class="hero">
+        <h1 id="hero-title">Loading Identity...</h1>
+        <h3 id="hero-subtitle">Loading Specification...</h3>
+        <p id="hero-description">Connecting with system secure database channels...</p>
+    </section>
 
-    <div class="hero-image-root">
-      <div class="profile-glow-ring">
-        <img src="images/image1.jpg" alt="Joyce William Profile Photo">
-      </div>
-    </div>
-  </main>
+    <div class="container" id="infinite-custom-sections"></div>
 
+    <script>
+        fetch('/api/public/site-data')
+            .then(res => res.json())
+            .then(data => {
+                if(data.fixedText.hero_title) document.getElementById('hero-title').innerText = data.fixedText.hero_title;
+                if(data.fixedText.hero_subtitle) document.getElementById('hero-subtitle').innerText = data.fixedText.hero_subtitle;
+                if(data.fixedText.hero_description) document.getElementById('hero-description').innerText = data.fixedText.hero_description;
+
+                const customContainer = document.getElementById('infinite-custom-sections');
+                const homeBlocks = data.customSections.filter(sec => sec.page_target === 'home');
+                customContainer.innerHTML = homeBlocks.map(sec => `
+                    <div class="infused-card">
+                        <h2>${sec.section_title}</h2>
+                        <p>${sec.section_content}</p>
+                    </div>
+                `).join('');
+            }).catch(err => console.error("Data synchronization error:", err));
+    </script>
 </body>
 </html>
