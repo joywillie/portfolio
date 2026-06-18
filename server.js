@@ -19,7 +19,7 @@ const pool = new Pool({
 
 // 🛠️ Core Middleware Registry
 app.use(express.json());
-app.use(express.urlencoded({ extended: true })); 
+app.use(express.urlencoded({ extended: true })); // Handles native HTML form post submissions 
 app.use(cookieParser());
 
 /**
@@ -44,8 +44,8 @@ const requireAuth = (req, res, next) => {
 
 /**
  * 🔀 SMART FILE HELPER
- * Checks if the primary filename exists. If it doesn't, it rolls back 
- * to the "(1)" version automatically so your site never throws an ENOENT error.
+ * Ensures your files load perfectly whether they use standard names 
+ * or duplicate variations (like 'index (1).html') without throwing errors.
  */
 const sendSmartFile = (res, primaryName, fallbackName) => {
   const primaryPath = path.join(__dirname, primaryName);
@@ -56,24 +56,28 @@ const sendSmartFile = (res, primaryName, fallbackName) => {
   }
 };
 
-// --- OPEN ENTRANCE AUTHENTICATION ROUTING BLOCKS ---
+// --- AUTOMATED AUTHENTICATION ROUTING BLOCKS ---
 
+// Serve Sign In page layout natively
 app.get('/signin', (req, res) => {
   sendSmartFile(res, 'signin.html', 'signin (1).html');
 });
 
+// Serve Sign Up page layout natively
 app.get('/signup', (req, res) => {
   sendSmartFile(res, 'signup.html', 'signup (1).html');
 });
 
-// 🔑 FORGOT PASSWORD ROUTE HANDLER
+// Fallback Route Handler for Forgot Password Endpoint
 app.get('/forgot-password', (req, res) => {
   res.send(`
-    <div style="font-family: sans-serif; text-align: center; padding: 50px;">
-      <h2>Password Recovery</h2>
-      <p>The automated password reset system is currently undergoing scheduled maintenance.</p>
-      <p>Please contact your system administrator or create a fresh account on the <a href="/signup">Sign Up Page</a>.</p>
-      <br><a href="/signin" style="color: #007bff; text-decoration: none;">&larr; Back to Login</a>
+    <div style="font-family: sans-serif; text-align: center; padding: 60px; background-color: #0f172a; color: #fff; height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; margin: 0;">
+      <div style="background-color: #1e293b; padding: 40px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.3); max-width: 450px;">
+        <h2 style="color: #38bdf8; margin-bottom: 20px;">Password Recovery</h2>
+        <p style="color: #94a3b8; line-height: 1.6;">The automated password reset system is currently undergoing scheduled maintenance.</p>
+        <p style="color: #94a3b8; line-height: 1.6; margin-bottom: 30px;">Please contact your systems administrator or create a new account to log in.</p>
+        <a href="/signin" style="background-color: #38bdf8; color: #0f172a; padding: 12px 24px; border-radius: 6px; text-decoration: none; font-weight: bold;">&larr; Back to Sign In</a>
+      </div>
     </div>
   `);
 });
@@ -95,7 +99,7 @@ app.post('/api/auth/signup', async (req, res) => {
     const hashed = await bcrypt.hash(password, salt);
     await pool.query('INSERT INTO users (fullname, email, password) VALUES ($1, $2, $3)', [fullName, email.toLowerCase().trim(), hashed]);
     
-    // Smooth backend redirect straight to your sign-in portal after registration
+    // Redirect cleanly to login portal after successful database registration
     return res.redirect('/signin');
   } catch (err) {
     console.error(err);
@@ -103,7 +107,7 @@ app.post('/api/auth/signup', async (req, res) => {
   }
 });
 
-// API: Handle User Login & Automatic Dashboard Redirection
+// API: Handle User Login & Automatic Website Presentation
 app.post('/api/auth/signin', async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -132,7 +136,7 @@ app.post('/api/auth/signin', async (req, res) => {
       maxAge: 24 * 60 * 60 * 1000
     });
     
-    // 🚀 Forces your browser window directly onto your real index.html file!
+    // 🚀 AFTER SIGNIN: Forces your browser window straight onto your website!
     return res.redirect('/');
 
   } catch (err) {
