@@ -10,15 +10,15 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const JWT_SECRET = process.env.JWT_SECRET || 'joytech_secret_key_2026';
 
-// 🗄️ Neon PostgreSQL Database Pool Connection
+// 🗄️ Neon PostgreSQL Database Pool Connection with Optimized SSL Handshake
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
-  ssl: { rejectUnauthorized: false }
+  ssl: true
 });
 
-// 🛠️ Core Middleware Registry 
+// 🛠️ Core Middleware Registry
 app.use(express.json());
-app.use(express.urlencoded({ extended: true })); // Direct support for traditional HTML <form> actions
+app.use(express.urlencoded({ extended: true })); // Crucial for reading raw HTML form text fields
 app.use(cookieParser());
 
 /**
@@ -105,7 +105,7 @@ app.post('/api/auth/signin', async (req, res) => {
       maxAge: 24 * 60 * 60 * 1000
     });
     
-    // 🚀 THE REDIRECT FIX: Forces your browser window directly onto your pristine home file!
+    // 🚀 THE REDIRECT FIX: Forces your browser window directly onto your real index.html file!
     return res.redirect('/');
 
   } catch (err) {
@@ -138,7 +138,8 @@ app.post('/contact', async (req, res) => {
 
 // --- PROTECTED VIEWS (LOADS ORIGINAL UNTOUCHED LAYOUTS FROM YOUR ROOT BRANCH) ---
 app.get('/', requireAuth, (req, res) => {
-  res.sendFile(path.join(__dirname, 'index (1).html'));
+  // Corrected to use your exact file name
+  res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 app.get('/about', requireAuth, (req, res) => {
