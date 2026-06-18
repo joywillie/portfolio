@@ -70,27 +70,35 @@ app.post('/api/auth/signup', async (req, res) => {
   }
 });
 
+// ⚡ BACKEND LOGIN HANDLER RE-ROUTE FIX
 app.post('/api/auth/signin', async (req, res) => {
   try {
     const { email, password } = req.body;
     const result = await pool.query('SELECT * FROM users WHERE email = $1', [email.toLowerCase().trim()]);
     if (result.rows.length === 0) {
-      return res.status(400).json({ success: false, message: "Invalid email or password parameters." });
+      return res.status(400).send('Invalid email or password parameters.');
     }
     const user = result.rows[0];
     const match = await bcrypt.compare(password, user.password);
     if (!match) {
-      return res.status(400).json({ success: false, message: "Invalid email or password parameters." });
+      return res.status(400).send('Invalid email or password parameters.');
     }
+    
+    // Generate secure session token
     const token = jwt.sign({ userId: user.id }, JWT_SECRET, { expiresIn: '24h' });
+    
+    // Set cookie validation header
     res.cookie('auth_token', token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       maxAge: 24 * 60 * 60 * 1000
     });
-    return res.status(200).json({ success: true });
+    
+    // 🚀 THE FIX: Instantly send you directly to your main portfolio layout page!
+    return res.redirect('/');
+
   } catch (err) {
-    return res.status(500).json({ success: false, message: "Gateway login internal failure." });
+    return res.status(500).send('Gateway login internal failure.');
   }
 });
 
@@ -115,7 +123,7 @@ app.post('/contact', async (req, res) => {
   }
 });
 
-// --- PROTECTED VIEWS (LOOKS DIRECTLY IN ROOT FOR YOUR UNTOUCHED portfolio FILES) ---
+// --- PROTECTED VIEWS (LOADS ORIGINAL UNTOUCHED LAYOUTS FROM YOUR ROOT BRANCH) ---
 app.get('/', requireAuth, (req, res) => {
   res.sendFile(path.join(__dirname, 'index (1).html'));
 });
@@ -136,7 +144,7 @@ app.get('/contact', requireAuth, (req, res) => {
   res.sendFile(path.join(__dirname, 'contact (1).html'));
 });
 
-// Serve static assets directly from the root repository folder
+// Serve static elements fallback directly out of the repository root folder configuration
 app.use(express.static(__dirname));
 
 app.listen(PORT, () => console.log(`🚀 Secure Gateway serving files cleanly on port ${PORT}`));
