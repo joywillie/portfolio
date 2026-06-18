@@ -19,7 +19,7 @@ const pool = new Pool({
 
 // 🛠️ Core Middleware Registry
 app.use(express.json());
-app.use(express.urlencoded({ extended: true })); // Handles native HTML form post submissions 
+app.use(express.urlencoded({ extended: true })); 
 app.use(cookieParser());
 
 /**
@@ -45,7 +45,7 @@ const requireAuth = (req, res, next) => {
 /**
  * 🔀 SMART FILE HELPER
  * Ensures your files load perfectly whether they use standard names 
- * or duplicate variations (like 'index (1).html') without throwing errors.
+ * or duplicate variations (like 'signin (1).html') without throwing errors.
  */
 const sendSmartFile = (res, primaryName, fallbackName) => {
   const primaryPath = path.join(__dirname, primaryName);
@@ -58,18 +58,18 @@ const sendSmartFile = (res, primaryName, fallbackName) => {
 
 // --- AUTOMATED AUTHENTICATION ROUTING BLOCKS ---
 
-// Serve Sign In page layout natively
-app.get('/signin', (req, res) => {
+// Serve Sign In page layout (Handles both clean /signin and /signin.html from your website links)
+app.get(['/signin', '/signin.html'], (req, res) => {
   sendSmartFile(res, 'signin.html', 'signin (1).html');
 });
 
-// Serve Sign Up page layout natively
-app.get('/signup', (req, res) => {
+// Serve Sign Up page layout (Handles both clean /signup and /signup.html from your website links)
+app.get(['/signup', '/signup.html'], (req, res) => {
   sendSmartFile(res, 'signup.html', 'signup (1).html');
 });
 
-// Fallback Route Handler for Forgot Password Endpoint
-app.get('/forgot-password', (req, res) => {
+// Fallback Route Handler for Forgot Password (Handles both clean /forgot-password and /forgot-password.html)
+app.get(['/forgot-password', '/forgot-password.html'], (req, res) => {
   res.send(`
     <div style="font-family: sans-serif; text-align: center; padding: 60px; background-color: #0f172a; color: #fff; height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; margin: 0;">
       <div style="background-color: #1e293b; padding: 40px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.3); max-width: 450px;">
@@ -136,7 +136,7 @@ app.post('/api/auth/signin', async (req, res) => {
       maxAge: 24 * 60 * 60 * 1000
     });
     
-    // 🚀 AFTER SIGNIN: Forces your browser window straight onto your website!
+    // 🚀 AFTER SIGNIN: Forces your browser window straight onto your website layout!
     return res.redirect('/');
 
   } catch (err) {
