@@ -3,22 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JoyTech Portfolio - Competencies</title>
+    <title>JoyTech Portfolio - Skills</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }
         body { background-color: #0f172a; color: #ffffff; min-height: 100vh; display: flex; flex-direction: column; }
-        nav { display: flex; justify-content: space-between; align-items: center; padding: 24px 8%; border-bottom: 1px solid #1e293b; background: #0f172a; }
-        nav .brand { font-size: 22px; font-weight: bold; color: #38bdf8; text-decoration: none; }
-        nav .links { display: flex; gap: 24px; }
+        nav { display: flex; justify-content: space-between; align-items: center; padding: 24px 8%; background: #0f172a; border-bottom: 1px solid rgba(255,255,255,0.03); }
+        nav .brand { font-size: 26px; font-weight: bold; color: #38bdf8; text-decoration: none; }
+        nav .links { display: flex; gap: 28px; }
         nav .links a { color: #94a3b8; text-decoration: none; font-size: 16px; }
         nav .links a:hover, nav .links a.active { color: #38bdf8; }
-        .container { max-width: 1000px; margin: 60px auto; padding: 0 20px; width: 100%; }
-        h1 { font-size: 36px; margin-bottom: 30px; color: #ffffff; }
-        .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; margin-bottom: 40px; }
-        .skill-pill { background: #1e293b; border: 1px solid #334155; padding: 18px; border-radius: 8px; text-align: center; font-size: 18px; font-weight: 600; color: #38bdf8; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        .infused-card { background: #1e293b; border: 1px solid #334155; padding: 30px; border-radius: 12px; margin-top: 30px; }
-        .infused-card h2 { color: #c084fc; font-size: 24px; margin-bottom: 14px; }
-        .infused-card p { color: #cbd5e1; font-size: 16px; line-height: 1.7; white-space: pre-wrap; }
+        .container { max-width: 1100px; margin: 60px auto; padding: 0 8%; width: 100%; }
+        h1 { font-size: 36px; margin-bottom: 30px; color: #ffffff; border-bottom: 1px solid #1e293b; padding-bottom: 12px; }
+        .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; margin-bottom: 50px; }
+        .skill-pill { background: #1e293b; border: 1px solid #334155; padding: 20px; border-radius: 10px; text-align: center; font-size: 18px; font-weight: bold; color: #38bdf8; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .custom-block { background: #1e293b; border: 1px solid #334155; padding: 35px; border-radius: 12px; margin-top: 35px; }
+        .custom-block h2 { color: #38bdf8; font-size: 26px; margin-bottom: 16px; }
+        .custom-block p { color: #cbd5e1; font-size: 16px; line-height: 1.8; white-space: pre-wrap; }
     </style>
 </head>
 <body>
@@ -35,8 +35,8 @@
     </nav>
 
     <div class="container">
-        <h1>Core Skill Competencies</h1>
-        <div class="skills-grid" id="skills-render-box"></div>
+        <h1>Technical Skills</h1>
+        <div class="skills-grid" id="skills-injection-box"></div>
         
         <div id="infinite-custom-sections"></div>
     </div>
@@ -45,9 +45,9 @@
         fetch('/api/public/site-data')
             .then(res => res.json())
             .then(data => {
-                const box = document.getElementById('skills-render-box');
+                const box = document.getElementById('skills-injection-box');
                 if(data.skills.length === 0) {
-                    box.innerHTML = `<p style="color:#94a3b8;">No technical skill entities saved yet.</p>`;
+                    box.innerHTML = `<p style="color:#94a3b8; font-size:16px;">No dynamic core skills records mapped within data stack layer components.</p>`;
                 } else {
                     box.innerHTML = data.skills.map(s => `<div class="skill-pill">${s.name}</div>`).join('');
                 }
@@ -55,7 +55,7 @@
                 const customContainer = document.getElementById('infinite-custom-sections');
                 const skillBlocks = data.customSections.filter(sec => sec.page_target === 'skills');
                 customContainer.innerHTML = skillBlocks.map(sec => `
-                    <div class="infused-card">
+                    <div class="custom-block">
                         <h2>${sec.section_title}</h2>
                         <p>${sec.section_content}</p>
                     </div>
