@@ -5,126 +5,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>JoyTech Portfolio</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
     body { background: #0f172a; color: #ffffff; min-height: 100vh; display: flex; flex-direction: column; overflow-x: hidden; }
-    
-    /* ==========================================
-       🧭 NAVIGATION BAR & HAMBURGER STYLES
-       ========================================== */
-    header { 
-      background: #0f172a; 
-      padding: 20px 80px; 
-      display: flex; 
-      justify-content: space-between; 
-      align-items: center; 
-      border-bottom: 1px solid #1e293b; 
-      position: relative;
-      z-index: 1000;
-    }
+    header { background: #0f172a; padding: 20px 80px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #1e293b; z-index: 1000; }
     .logo a { color: #38bdf8; font-size: 26px; font-weight: 700; text-decoration: none; }
-    
     nav { display: flex; align-items: center; gap: 30px; }
     nav a { color: #cbd5e1; text-decoration: none; font-size: 16px; font-weight: 500; transition: color 0.3s ease; }
     nav a:hover, nav a.active { color: #38bdf8; }
-
-    /* Hidden by default on desktop viewports */
-    .hamburger {
-      display: none;
-      flex-direction: column;
-      gap: 6px;
-      cursor: pointer;
-    }
-    .hamburger span {
-      width: 28px;
-      height: 3px;
-      background-color: #ffffff;
-      border-radius: 2px;
-      transition: all 0.3s ease;
-    }
-
-    /* ==========================================
-       🛡️ HERO CONTAINER HERO SECTION STYLES
-       ========================================== */
     .hero-container { max-width: 1200px; margin: auto; padding: 40px 80px; display: flex; justify-content: space-between; align-items: center; gap: 50px; flex-grow: 1; }
     .hero-text { flex: 1; max-width: 600px; }
-    .hero-text h3 { color: #38bdf8; font-size: 18px; font-weight: 500; margin-bottom: 10px; }
-    .hero-text h1 { font-size: 56px; font-weight: 700; line-height: 1.2; margin-bottom: 15px; }
-    .hero-text h2 { font-size: 24px; color: #cbd5e1; font-weight: 600; margin-bottom: 20px; }
-    .hero-text p { color: #94a3b8; font-size: 16px; line-height: 1.6; margin-bottom: 35px; }
-    
-    .cta-group { display: flex; gap: 20px; }
-    .btn-primary { background: #38bdf8; color: #0f172a; padding: 12px 28px; border-radius: 8px; font-weight: 600; text-decoration: none; transition: background 0.3s ease; }
-    .btn-primary:hover { background: #0ea5e9; }
-    .btn-secondary { background: transparent; color: #38bdf8; border: 2px solid #38bdf8; padding: 10px 26px; border-radius: 8px; font-weight: 600; text-decoration: none; transition: all 0.3s ease; }
-    .btn-secondary:hover { background: rgba(56, 189, 248, 0.1); }
-
-    .hero-image-root { position: relative; display: flex; justify-content: center; align-items: center; }
+    .hero-text h1 { font-size: 56px; font-weight: 700; margin-bottom: 15px; }
     .profile-glow-ring { width: 350px; height: 350px; border-radius: 50%; border: 3px solid #38bdf8; box-shadow: 0 0 25px rgba(56, 189, 248, 0.6); overflow: hidden; }
-    
-    .profile-glow-ring img { 
-      width: 100%; 
-      height: 100%; 
-      object-fit: cover; 
-      object-position: top; 
-    }
-
-    /* Dynamic Content Insertion Box Styling */
-    .dynamic-sections { max-width: 1200px; margin: 0 auto 60px auto; padding: 0 80px; width: 100%; }
-    .custom-card { background: #1e293b; padding: 30px; border-radius: 12px; border: 1px solid #334155; margin-bottom: 24px; }
-    .custom-card h3 { color: #38bdf8; font-size: 22px; margin-bottom: 12px; }
-    .custom-card p { color: #cbd5e1; font-size: 16px; line-height: 1.6; }
-
-    /* ==========================================
-       📱 SCREEN SIZES & MOBILE RESPONSIVENESS
-       ========================================== */
-    @media (max-width: 968px) {
-      header { padding: 20px 40px; }
-      .hero-container { flex-direction: column-reverse; text-align: center; padding: 40px 40px; gap: 30px; }
-      .cta-group { justify-content: center; }
-      .profile-glow-ring { width: 280px; height: 280px; }
-      .dynamic-sections { padding: 0 40px; }
-
-      /* Mobile Navigation Trigger Assembly */
-      .hamburger { display: flex; }
-      
-      nav { 
-        display: none; 
-        flex-direction: column; 
-        width: 100%; 
-        background: #1e293b; 
-        position: absolute; 
-        top: 100%; 
-        left: 0; 
-        padding: 24px 0; 
-        gap: 20px; 
-        text-align: center;
-        border-bottom: 2px solid #334155;
-        box-shadow: 0 10px 15px rgba(0,0,0,0.3);
-      }
-
-      /* Animated states for opening mobile slide menus */
-      nav.mobile-open { display: flex; }
-      
-      /* Animate Hamburger Bars when menu is active */
-      .hamburger.active span:nth-child(1) { transform: translateY(9px) rotate(45deg); }
-      .hamburger.active span:nth-child(2) { opacity: 0; }
-      .hamburger.active span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
-    }
+    .profile-glow-ring img { width: 100%; height: 100%; object-fit: cover; }
+    .upload-box { margin-top: 20px; text-align: center; }
+    .btn-upload { cursor: pointer; padding: 8px 16px; background: #38bdf8; border: none; border-radius: 4px; color: #0f172a; font-weight: bold; }
   </style>
 </head>
 <body>
-
   <header>
     <div class="logo"><a href="/">JoyTech</a></div>
-    
-    <div class="hamburger" id="mobile-toggle">
-      <span></span>
-      <span></span>
-      <span></span>
-    </div>
-
     <nav id="nav-menu">
       <a href="/" class="active">Home</a>
       <a href="/about">About</a>
@@ -133,62 +33,31 @@
       <a href="/contact">Contact</a>
     </nav>
   </header>
-
   <main class="hero-container">
     <div class="hero-text">
-      <h3>Hello, I'm</h3>
       <h1 id="hero-title">Joyce William</h1>
-      <h2 id="hero-subtitle">ICT Technician & Web Developer</h2>
-      <p id="hero-description">Passionate about web development, UI design, mobile applications, and building modern digital experiences.</p>
-      <div class="cta-group">
-        <a href="/projects" class="btn-primary">View Projects</a>
-        <a href="/contact" class="btn-secondary">Contact Me</a>
-      </div>
+      <p id="hero-description">ICT Technician & Web Developer.</p>
     </div>
-
     <div class="hero-image-root">
       <div class="profile-glow-ring">
-        <img src="images/image1.jpg" alt="Joyce William Profile Photo">
+        <img id="profile-img" src="/uploads/profile.jpg" alt="Profile">
+      </div>
+      <div class="upload-box">
+        <input type="file" id="photoInput" accept="image/*" style="display: none;">
+        <button class="btn-upload" onclick="document.getElementById('photoInput').click()">Choose File</button>
+        <button class="btn-upload" onclick="uploadPhoto()">Save Photo</button>
       </div>
     </div>
   </main>
-
-  <section class="dynamic-sections" id="injected-sections-container"></section>
-
   <script>
-    // 1. HAMBURGER INTERACTIVE TOGGLE LOGIC
-    const mobileToggle = document.getElementById('mobile-toggle');
-    const navMenu = document.getElementById('nav-menu');
-
-    mobileToggle.addEventListener('click', () => {
-        navMenu.classList.toggle('mobile-open');
-        mobileToggle.classList.toggle('active');
-    });
-
-    // 2. DATA PIPE RECOVERY FROM LIVE DATABASE
-    fetch('/api/public/site-data')
-      .then(res => res.json())
-      .then(data => {
-        // Hydrate Core Fixed Text values if customized inside admin dashboard
-        if(data.fixedText.hero_title) document.getElementById('hero-title').innerText = data.fixedText.hero_title;
-        if(data.fixedText.hero_subtitle) document.getElementById('hero-subtitle').innerText = data.fixedText.hero_subtitle;
-        if(data.fixedText.hero_description) document.getElementById('hero-description').innerText = data.fixedText.hero_description;
-
-        // Render any customized Infinite Content Section updates targeted at the homepage
-        const container = document.getElementById('injected-sections-container');
-        const homeSections = data.customSections.filter(sec => sec.page_target === 'home');
-        
-        if (homeSections.length > 0) {
-          container.innerHTML = homeSections.map(sec => `
-            <div class="custom-card">
-              <h3>${sec.section_title}</h3>
-              <p>${sec.section_content}</p>
-            </div>
-          `).join('');
-        }
-      })
-      .catch(err => console.error('Data pipeline connectivity error:', err));
+    async function uploadPhoto() {
+        const file = document.getElementById('photoInput').files[0];
+        if (!file) return alert("Select a file first!");
+        const formData = new FormData();
+        formData.append('photo', file);
+        const res = await fetch('/api/upload-photo', { method: 'POST', body: formData });
+        if(res.ok) { alert("Photo Updated!"); window.location.reload(); }
+    }
   </script>
-
 </body>
 </html>
