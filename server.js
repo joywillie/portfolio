@@ -4,13 +4,14 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
 const path = require('path');
+const fs = require('fs');
 require('dotenv').config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 const JWT_SECRET = process.env.JWT_SECRET || 'joytech_secret_key_2026';
 
-// 🗄️ Neon PostgreSQL Database Pool Connection with Optimized SSL Handshake
+// 🗄️ Neon PostgreSQL Database Pool Connection
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: true
@@ -18,7 +19,7 @@ const pool = new Pool({
 
 // 🛠️ Core Middleware Registry
 app.use(express.json());
-app.use(express.urlencoded({ extended: true })); // Crucial for reading raw HTML form text fields
+app.use(express.urlencoded({ extended: true })); 
 app.use(cookieParser());
 
 /**
@@ -41,14 +42,40 @@ const requireAuth = (req, res, next) => {
   }
 };
 
+/**
+ * 🔀 SMART FILE HELPER
+ * Checks if the primary filename exists. If it doesn't, it rolls back 
+ * to the "(1)" version automatically so your site never throws an ENOENT error.
+ */
+const sendSmartFile = (res, primaryName, fallbackName) => {
+  const primaryPath = path.join(__dirname, primaryName);
+  if (fs.existsSync(primaryPath)) {
+    return res.sendFile(primaryPath);
+  } else {
+    return res.sendFile(path.join(__dirname, fallbackName));
+  }
+};
+
 // --- OPEN ENTRANCE AUTHENTICATION ROUTING BLOCKS ---
 
 app.get('/signin', (req, res) => {
-  res.sendFile(path.join(__dirname, 'signin.html'));
+  sendSmartFile(res, 'signin.html', 'signin (1).html');
 });
 
 app.get('/signup', (req, res) => {
-  res.sendFile(path.join(__dirname, 'signup.html'));
+  sendSmartFile(res, 'signup.html', 'signup (1).html');
+});
+
+// 🔑 FORGOT PASSWORD ROUTE HANDLER
+app.get('/forgot-password', (req, res) => {
+  res.send(`
+    <div style="font-family: sans-serif; text-align: center; padding: 50px;">
+      <h2>Password Recovery</h2>
+      <p>The automated password reset system is currently undergoing scheduled maintenance.</p>
+      <p>Please contact your system administrator or create a fresh account on the <a href="/signup">Sign Up Page</a>.</p>
+      <br><a href="/signin" style="color: #007bff; text-decoration: none;">&larr; Back to Login</a>
+    </div>
+  `);
 });
 
 // API: Handle New User Registration
@@ -105,7 +132,7 @@ app.post('/api/auth/signin', async (req, res) => {
       maxAge: 24 * 60 * 60 * 1000
     });
     
-    // 🚀 THE REDIRECT FIX: Forces your browser window directly onto your real index.html file!
+    // 🚀 Forces your browser window directly onto your real index.html file!
     return res.redirect('/');
 
   } catch (err) {
@@ -138,24 +165,23 @@ app.post('/contact', async (req, res) => {
 
 // --- PROTECTED VIEWS (LOADS ORIGINAL UNTOUCHED LAYOUTS FROM YOUR ROOT BRANCH) ---
 app.get('/', requireAuth, (req, res) => {
-  // Corrected to use your exact file name
-  res.sendFile(path.join(__dirname, 'index.html'));
+  sendSmartFile(res, 'index.html', 'index (1).html');
 });
 
 app.get('/about', requireAuth, (req, res) => {
-  res.sendFile(path.join(__dirname, 'about.html'));
+  sendSmartFile(res, 'about.html', 'about (1).html');
 });
 
 app.get('/skills', requireAuth, (req, res) => {
-  res.sendFile(path.join(__dirname, 'skills.html'));
+  sendSmartFile(res, 'skills.html', 'skills (1).html');
 });
 
 app.get('/projects', requireAuth, (req, res) => {
-  res.sendFile(path.join(__dirname, 'projects.html'));
+  sendSmartFile(res, 'projects.html', 'projects (1).html');
 });
 
 app.get('/contact', requireAuth, (req, res) => {
-  res.sendFile(path.join(__dirname, 'contact (1).html'));
+  sendSmartFile(res, 'contact (1).html', 'contact.html');
 });
 
 // Serve static elements fallback directly out of the repository root folder configuration
