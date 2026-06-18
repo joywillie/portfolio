@@ -7,13 +7,20 @@
     "start": "node server.js",
     "dev": "nodemon server.js"
   },
+  "keywords": [
+    "portfolio",
+    "express",
+    "postgresql",
+    "joytech"
+  ],
+  "author": "Joyce William",
+  "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
-    "express-session": "^1.18.0",
     "jsonwebtoken": "^9.0.2",
     "pg": "^8.11.5"
   },
