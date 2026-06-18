@@ -14,22 +14,27 @@ const JWT_SECRET = process.env.JWT_SECRET || 'joytech_secret_key_2026';
 // 🗄️ Neon PostgreSQL Database Connection Pool
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
-  ssl: true
+  ssl: {
+    rejectUnauthorized: false 
+  }
 });
 
 // 🛠️ Core Middleware Registry
 app.use(express.json());
-app.use(express.urlencoded({ extended: true })); // Intercepts standard HTML form submissions
+app.use(express.urlencoded({ extended: true })); 
 app.use(cookieParser());
 
 /**
  * 🔒 MIDDLEWARE SECURITY GATEWAY
- * Protects your main portfolio files. If someone tries to access your website
- * without being logged in, they are immediately redirected to the sign-in page.
+ * Protects your portfolio pages. If a user isn't logged in, it answers 
+ * background JavaScript calls smoothly or redirects them to sign in.
  */
 const requireAuth = (req, res, next) => {
   const token = req.cookies.auth_token;
   if (!token) {
+    if (req.xhr || req.headers.accept?.includes('json')) {
+      return res.status(401).json({ success: false, message: 'Unauthorized' });
+    }
     return res.redirect('/signin');
   }
   try {
@@ -38,14 +43,16 @@ const requireAuth = (req, res, next) => {
     next();
   } catch (err) {
     res.clearCookie('auth_token');
+    if (req.xhr || req.headers.accept?.includes('json')) {
+      return res.status(401).json({ success: false, message: 'Unauthorized' });
+    }
     return res.redirect('/signin');
   }
 };
 
 /**
  * 🔀 SMART FILE HELPER
- * Checks if the primary file exists in the folder. If it doesn't, it automatically
- * serves the "(1)" duplicate fallback version so your links never break with a 404 error.
+ * Delivers files seamlessly behind the scenes, scanning for duplicate folder names.
  */
 const sendSmartFile = (res, primaryName, fallbackName) => {
   const primaryPath = path.join(__dirname, primaryName);
@@ -56,20 +63,17 @@ const sendSmartFile = (res, primaryName, fallbackName) => {
   }
 };
 
-// --- 🌐 GET ROUTES: SERVING THE HTML PAGES NATIVELY ---
+// --- 🌐 GET ALIASES: SERVING ALL RAW HTML FILE VARIATIONS ---
 
-// Serves your Sign In page (Catches clean URLs, .html extensions, and space duplicates)
 app.get(['/signin', '/signin.html', '/signin%20(1).html', '/signin (1).html'], (req, res) => {
   sendSmartFile(res, 'signin.html', 'signin (1).html');
 });
 
-// Serves your Sign Up page (Catches clean URLs, .html extensions, and space duplicates)
 app.get(['/signup', '/signup.html', '/signup%20(1).html', '/signup (1).html'], (req, res) => {
   sendSmartFile(res, 'signup.html', 'signup (1).html');
 });
 
-// Serves a custom styled backend page if someone clicks Forgot Password
-app.get(['/forgot-password', '/forgot-password.html'], (req, res) => {
+app.get(['/forgot-password', '/forgot-password.html', '/forgot-password%20(1).html', '/forgot-password (1).html'], (req, res) => {
   res.send(`
     <div style="font-family: sans-serif; text-align: center; padding: 60px; background-color: #0f172a; color: #fff; height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; margin: 0;">
       <div style="background-color: #1e293b; padding: 40px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.3); max-width: 450px;">
@@ -82,57 +86,57 @@ app.get(['/forgot-password', '/forgot-password.html'], (req, res) => {
   `);
 });
 
-// --- ⚙️ POST ROUTES: CONNECTING HTML FORM SUBMISSIONS TO NEON DATABASE ---
+// --- ⚙️ TWISTED POST INTERCEPTORS: DYNAMICALLY RESPONDING IN BOTH JSON & REDIRECTS ---
 
-// SIGN UP PROCESSOR: Catches form submissions from your signup page
-app.post(['/api/auth/signup', '/signup', '/signup.html', '/api/signup'], async (req, res) => {
+// SIGN UP PROCESSOR
+app.post(['/api/auth/signup', '/signup', '/signup.html', '/api/signup', '/register'], async (req, res) => {
   try {
-    const { fullName, email, password } = req.body;
-    
-    // Fallback support if your HTML input fields use different names (like name instead of fullName)
-    const clientName = fullName || req.body.name;
+    const email = req.body.email || req.body.Email || req.body.user_email;
+    const password = req.body.password || req.body.Password || req.body.user_password;
+    const name = req.body.fullName || req.body.name || 'New User';
 
     if (!email || !password) {
-      return res.status(400).send('Missing email or password fields. <a href="/signup">Try again</a>');
+      return res.status(400).json({ success: false, message: 'Missing email or password.' });
     }
 
     const checkUser = await pool.query('SELECT * FROM users WHERE email = $1', [email.toLowerCase().trim()]);
     if (checkUser.rows.length > 0) {
-      return res.status(400).send('This email is already registered. <a href="/signup">Try to Sign In</a>');
+      return res.status(400).json({ success: false, message: 'Email already registered.' });
     }
 
     const salt = await bcrypt.genSalt(10);
     const hashed = await bcrypt.hash(password, salt);
-    await pool.query('INSERT INTO users (fullname, email, password) VALUES ($1, $2, $3)', [clientName || 'User', email.toLowerCase().trim(), hashed]);
+    await pool.query('INSERT INTO users (fullname, email, password) VALUES ($1, $2, $3)', [name, email.toLowerCase().trim(), hashed]);
     
-    // Redirects browser instantly back to the log in panel after successful database entry
-    return res.redirect('/signin');
+    // Twist: Returns success JSON so your custom script transitions smoothly
+    return res.status(200).json({ success: true, redirect: '/signin' });
   } catch (err) {
     console.error(err);
-    return res.status(500).send('Database registration failure.');
+    return res.status(500).json({ success: false, message: 'Database failure.' });
   }
 });
 
-// SIGN IN PROCESSOR: Catches form submissions from your signin page
-app.post(['/api/auth/signin', '/signin', '/signin.html', '/api/signin'], async (req, res) => {
+// SIGN IN PROCESSOR (FIXES THE CONNECTION ERROR!)
+app.post(['/api/auth/signin', '/signin', '/signin.html', '/api/signin', '/login'], async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const email = req.body.email || req.body.Email || req.body.user_email;
+    const password = req.body.password || req.body.Password || req.body.user_password;
+
     if (!email || !password) {
-      return res.status(400).send('Please enter both email and password. <a href="/signin">Go back</a>');
+      return res.status(400).json({ success: false, message: 'Fields are mandatory.' });
     }
 
     const result = await pool.query('SELECT * FROM users WHERE email = $1', [email.toLowerCase().trim()]);
     if (result.rows.length === 0) {
-      return res.status(400).send('Invalid email or password. <a href="/signin">Go back</a>');
+      return res.status(400).json({ success: false, message: 'Invalid credentials.' });
     }
 
     const user = result.rows[0];
     const match = await bcrypt.compare(password, user.password);
     if (!match) {
-      return res.status(400).send('Invalid email or password. <a href="/signin">Go back</a>');
+      return res.status(400).json({ success: false, message: 'Invalid credentials.' });
     }
     
-    // Generate secure session token cookie
     const token = jwt.sign({ userId: user.id, email: user.email }, JWT_SECRET, { expiresIn: '24h' });
     
     res.cookie('auth_token', token, {
@@ -141,22 +145,22 @@ app.post(['/api/auth/signin', '/signin', '/signin.html', '/api/signin'], async (
       maxAge: 24 * 60 * 60 * 1000
     });
     
-    // 🚀 THE CONNECTING LINK: Sends the user directly to your website home screen!
-    return res.redirect('/');
+    // Twist: Send exact positive validation object back to the AJAX handler
+    return res.status(200).json({ success: true, redirect: '/' });
 
   } catch (err) {
     console.error(err);
-    return res.status(500).send('Internal server login failure.');
+    return res.status(500).json({ success: false, message: 'Internal server gateway error.' });
   }
 });
 
-// Logout Endpoint to clear cookie data sessions
+// Session Logout Route
 app.get('/logout', (req, res) => {
   res.clearCookie('auth_token');
   res.redirect('/signin');
 });
 
-// --- 📨 CONTACT FORM DATA ROUTER ---
+// --- 📨 DUAL DATA STREAM PIPELINE (NEON + FORMSPREE) ---
 app.post('/contact', async (req, res) => {
   const { name, email, message } = req.body;
   try {
@@ -172,7 +176,7 @@ app.post('/contact', async (req, res) => {
   }
 });
 
-// --- 🔒 PROTECTED PORTFOLIO VIEWS (ONLY VIEWABLE IF LOGGED IN) ---
+// --- 🔒 PROTECTED WEBSITE PAGES ---
 app.get('/', requireAuth, (req, res) => {
   sendSmartFile(res, 'index.html', 'index (1).html');
 });
@@ -197,4 +201,4 @@ app.get('/contact', requireAuth, (req, res) => {
 app.use(express.static(__dirname));
 
 // Initialize Listening Server Container Port
-app.listen(PORT, () => console.log(`🚀 Fully Connected Authentication System serving on port ${PORT}`));
+app.listen(PORT, () => console.log(`🚀 System fully synchronized on port ${PORT}`));
