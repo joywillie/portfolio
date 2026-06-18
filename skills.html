@@ -22,7 +22,6 @@
     </style>
 </head>
 <body>
-
     <nav>
         <a href="/" class="brand">JoyTech</a>
         <div class="links">
@@ -37,7 +36,6 @@
     <div class="container">
         <h1>Technical Skills</h1>
         <div class="skills-grid" id="skills-injection-box"></div>
-        
         <div id="infinite-custom-sections"></div>
     </div>
 
@@ -47,7 +45,7 @@
             .then(data => {
                 const box = document.getElementById('skills-injection-box');
                 if(data.skills.length === 0) {
-                    box.innerHTML = `<p style="color:#94a3b8; font-size:16px;">No dynamic core skills records mapped within data stack layer components.</p>`;
+                    box.innerHTML = `<p style="color:#94a3b8; font-size:16px;">No dynamic skills loaded yet.</p>`;
                 } else {
                     box.innerHTML = data.skills.map(s => `<div class="skill-pill">${s.name}</div>`).join('');
                 }
