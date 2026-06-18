@@ -1,7 +1,7 @@
 {
   "name": "joytech-portfolio",
   "version": "1.0.0",
-  "description": "Production-ready personal portfolio backend with secure PostgreSQL integration and session support.",
+  "description": "Production-ready personal portfolio backend with secure PostgreSQL integration.",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
@@ -21,7 +21,6 @@
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
-    "express-session": "^1.18.0",
     "jsonwebtoken": "^9.0.2",
     "pg": "^8.11.5"
   },
