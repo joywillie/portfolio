@@ -3,28 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JoyTech Portfolio - Reach Out</title>
+    <title>Contact Me - JoyTech</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }
         body { background-color: #0f172a; color: #ffffff; min-height: 100vh; display: flex; flex-direction: column; }
-        nav { display: flex; justify-content: space-between; align-items: center; padding: 24px 8%; border-bottom: 1px solid #1e293b; background: #0f172a; }
-        nav .brand { font-size: 22px; font-weight: bold; color: #38bdf8; text-decoration: none; }
-        nav .links { display: flex; gap: 24px; }
+        nav { display: flex; justify-content: space-between; align-items: center; padding: 24px 8%; background: #0f172a; border-bottom: 1px solid rgba(255,255,255,0.03); }
+        nav .brand { font-size: 26px; font-weight: bold; color: #38bdf8; text-decoration: none; }
+        nav .links { display: flex; gap: 28px; }
         nav .links a { color: #94a3b8; text-decoration: none; font-size: 16px; }
         nav .links a:hover, nav .links a.active { color: #38bdf8; }
-        .container { max-width: 600px; margin: 60px auto; padding: 0 20px; width: 100%; }
-        h1 { font-size: 36px; margin-bottom: 12px; color: #ffffff; text-align: center; }
-        p.sub { text-align: center; color: #94a3b8; margin-bottom: 30px; font-size: 16px; }
-        form { background: #1e293b; border: 1px solid #334155; padding: 30px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
-        .form-group { margin-bottom: 20px; display: flex; flex-direction: column; gap: 6px; }
-        label { color: #94a3b8; font-size: 14px; font-weight: 500; }
-        input, textarea { padding: 12px; background: #0f172a; border: 1px solid #334155; border-radius: 6px; color: white; font-size: 16px; outline: none; }
+        .container { max-width: 1200px; margin: 60px auto; padding: 0 8%; width: 100%; flex-grow: 1; }
+        h1.title { text-align: center; font-size: 42px; font-weight: bold; color: #38bdf8; margin-bottom: 50px; }
+        .contact-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; }
+        @media(max-width: 768px) { .contact-layout { grid-template-columns: 1fr; } }
+        .panel-left { background: #1e293b; border: 1px solid #1e293b; padding: 40px; border-radius: 12px; height: 100%; }
+        .panel-left h2 { font-size: 26px; color: #38bdf8; margin-bottom: 16px; font-weight: bold; }
+        .panel-left p.desc { color: #94a3b8; line-height: 1.7; margin-bottom: 35px; font-size: 15px; }
+        .contact-channel { background: #0f172a; border: 1px solid #334155; padding: 16px 20px; border-radius: 8px; margin-bottom: 16px; display: flex; align-items: center; gap: 14px; color: white; font-weight: 600; font-size: 15px; text-decoration: none; transition: border 0.2s; }
+        .contact-channel:hover { border-color: #38bdf8; }
+        .panel-right-form { background: #1e293b; border: 1px solid #1e293b; padding: 40px; border-radius: 12px; display: flex; flex-direction: column; gap: 20px; }
+        .form-group { display: flex; flex-direction: column; gap: 8px; }
+        input, textarea { padding: 16px; background: #0f172a; border: 1px solid #334155; border-radius: 8px; color: white; font-size: 15px; outline: none; box-sizing: border-box; width: 100%; transition: border 0.2s; }
         input:focus, textarea:focus { border-color: #38bdf8; }
-        button { padding: 14px; background: #38bdf8; color: #0f172a; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 16px; transition: background 0.2s; margin-top: 10px; }
-        button:hover { background: #0ea5e9; }
-        .infused-card { background: #1e293b; border: 1px solid #334155; padding: 30px; border-radius: 12px; margin-top: 30px; text-align: left; }
-        .infused-card h2 { color: #38bdf8; font-size: 24px; margin-bottom: 14px; }
-        .infused-card p { color: #cbd5e1; font-size: 16px; line-height: 1.7; white-space: pre-wrap; }
+        button.btn-submit { background: #334155; color: #94a3b8; border: none; padding: 16px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 16px; transition: all 0.2s; text-align: center; }
+        button.btn-submit.active-ready { background: #38bdf8; color: #0f172a; }
+        button.btn-submit.active-ready:hover { background: #0ea5e9; }
+        .custom-block { background: #1e293b; border: 1px solid #334155; padding: 35px; border-radius: 12px; margin-top: 40px; width: 100%; }
+        .custom-block h2 { color: #38bdf8; font-size: 26px; margin-bottom: 16px; }
+        .custom-block p { color: #cbd5e1; font-size: 16px; line-height: 1.8; white-space: pre-wrap; }
     </style>
 </head>
 <body>
@@ -41,47 +47,79 @@
     </nav>
 
     <div class="container">
-        <h1>Connect With Me</h1>
-        <p class="sub">Submit your query directly to my secure communication data matrix.</p>
+        <h1 class="title">Contact Me</h1>
         
-        <form id="contactForm">
-            <div class="form-group"><label>Your Name</label><input type="text" id="name" required></div>
-            <div class="form-group"><label>Email Address</label><input type="email" id="email" required></div>
-            <div class="form-group"><label>Message Scope</label><textarea id="message" rows="5" required></textarea></div>
-            <button type="submit">Transmit Message</button>
-        </form>
+        <div class="contact-layout">
+            <div class="panel-left">
+                <h2>Get in Touch Instantly</h2>
+                <p class="desc">Feel free to reach out via any of these channels for freelance inquiries, collaboration projects, or technical consultations.</p>
+                
+                <a href="#" id="anchor-whatsapp" target="_blank" class="contact-channel">💬 Chat on WhatsApp</a>
+                <a href="#" id="anchor-phone" class="contact-channel">📞 Call Me: Loading...</a>
+                <a href="#" id="anchor-email" class="contact-channel">✉️ Email: Loading...</a>
+            </div>
+
+            <form id="contactForm" class="panel-right-form">
+                <div class="form-group"><input type="text" id="name" placeholder="Name" required></div>
+                <div class="form-group"><input type="email" id="email" placeholder="Email" required></div>
+                <div class="form-group"><textarea id="message" rows="5" placeholder="Message" required></textarea></div>
+                <button type="submit" id="submitBtn" class="btn-submit active-ready">Send Message</button>
+            </form>
+        </div>
 
         <div id="infinite-custom-sections"></div>
     </div>
 
     <script>
-        document.getElementById('contactForm').addEventListener('submit', async (e) => {
+        const form = document.getElementById('contactForm');
+        const btn = document.getElementById('submitBtn');
+
+        form.addEventListener('submit', async (e) => {
             e.preventDefault();
+            btn.innerText = "Sending...";
+            btn.classList.remove('active-ready');
+            btn.disabled = true;
+
             const payload = {
                 name: document.getElementById('name').value,
                 email: document.getElementById('email').value,
                 message: document.getElementById('message').value
             };
+
             const res = await fetch('/contact', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
             });
+
             if(res.ok) {
-                alert("Message streamed successfully!");
-                document.getElementById('contactForm').reset();
+                alert("✨ Message sent successfully! Thank you for reaching out, I will get back to you shortly.");
+                form.reset();
             } else {
-                alert("Transmission pipeline fault.");
+                alert("Pipeline data sync error. Message submission interrupted.");
             }
+            
+            btn.innerText = "Send Message";
+            btn.classList.add('active-ready');
+            btn.disabled = false;
         });
 
         fetch('/api/public/site-data')
             .then(res => res.json())
             .then(data => {
+                const phone = data.fixedText.contact_phone || '0745806435';
+                const email = data.fixedText.contact_email || 'jw42205769@gmail.com';
+
+                document.getElementById('anchor-whatsapp').href = `https://wa.me/${phone}`;
+                document.getElementById('anchor-phone').innerText = `📞 Call Me: ${phone}`;
+                document.getElementById('anchor-phone').href = `tel:${phone}`;
+                document.getElementById('anchor-email').innerText = `✉️ Email: ${email}`;
+                document.getElementById('anchor-email').href = `mailto:${email}`;
+
                 const customContainer = document.getElementById('infinite-custom-sections');
                 const contactBlocks = data.customSections.filter(sec => sec.page_target === 'contact');
                 customContainer.innerHTML = contactBlocks.map(sec => `
-                    <div class="infused-card">
+                    <div class="custom-block">
                         <h2>${sec.section_title}</h2>
                         <p>${sec.section_content}</p>
                     </div>
