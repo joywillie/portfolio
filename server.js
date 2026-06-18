@@ -16,7 +16,7 @@ const pool = new Pool({
   ssl: { rejectUnauthorized: false }
 });
 
-// Parsers Middlewares
+// Parsers Middlewares - Crucial for reading raw browser form text fields
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
@@ -55,46 +55,47 @@ app.post('/api/auth/signup', async (req, res) => {
   try {
     const { fullName, email, password } = req.body;
     if (!fullName || !email || !password) {
-      return res.status(400).json({ success: false, message: "Missing required fields." });
+      return res.status(400).send('Missing required fields. <a href="/signup">Try again</a>');
     }
     const checkUser = await pool.query('SELECT * FROM users WHERE email = $1', [email.toLowerCase().trim()]);
     if (checkUser.rows.length > 0) {
-      return res.status(400).json({ success: false, message: "Email already exists." });
+      return res.status(400).send('Email already exists. <a href="/signup">Try again</a>');
     }
     const salt = await bcrypt.genSalt(10);
     const hashed = await bcrypt.hash(password, salt);
     await pool.query('INSERT INTO users (fullname, email, password) VALUES ($1, $2, $3)', [fullName, email.toLowerCase().trim(), hashed]);
-    return res.status(201).json({ success: true });
+    
+    // Redirect cleanly to login portal after successful database entry creation
+    return res.redirect('/signin');
   } catch (err) {
-    return res.status(500).json({ success: false, message: "Database creation loop failed." });
+    return res.status(500).send('Database creation loop failed.');
   }
 });
 
-// ⚡ BACKEND LOGIN HANDLER RE-ROUTE FIX
 app.post('/api/auth/signin', async (req, res) => {
   try {
     const { email, password } = req.body;
     const result = await pool.query('SELECT * FROM users WHERE email = $1', [email.toLowerCase().trim()]);
     if (result.rows.length === 0) {
-      return res.status(400).send('Invalid email or password parameters.');
+      return res.status(400).send('Invalid email or password parameters. <a href="/signin">Go back</a>');
     }
     const user = result.rows[0];
     const match = await bcrypt.compare(password, user.password);
     if (!match) {
-      return res.status(400).send('Invalid email or password parameters.');
+      return res.status(400).send('Invalid email or password parameters. <a href="/signin">Go back</a>');
     }
     
     // Generate secure session token
     const token = jwt.sign({ userId: user.id }, JWT_SECRET, { expiresIn: '24h' });
     
-    // Set cookie validation header
+    // Set cookie validation header explicitly inside the user agent browser profile
     res.cookie('auth_token', token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       maxAge: 24 * 60 * 60 * 1000
     });
     
-    // 🚀 THE FIX: Instantly send you directly to your main portfolio layout page!
+    // 🚀 Redirection right onto the main layout profile dashboard
     return res.redirect('/');
 
   } catch (err) {
