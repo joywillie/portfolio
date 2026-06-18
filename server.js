@@ -11,7 +11,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const JWT_SECRET = process.env.JWT_SECRET || 'joytech_secret_key_2026';
 
-// 🗄️ Neon PostgreSQL Database Pool Connection
+// 🗄️ Neon PostgreSQL Database Connection Pool
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: true
@@ -24,7 +24,6 @@ app.use(cookieParser());
 
 /**
  * 🔒 MIDDLEWARE SECURITY GATEWAY
- * Intercepts unauthenticated navigation traffic.
  * If a visitor has no valid auth token cookie, they are forced to Sign In instantly.
  */
 const requireAuth = (req, res, next) => {
@@ -44,8 +43,8 @@ const requireAuth = (req, res, next) => {
 
 /**
  * 🔀 SMART FILE HELPER
- * Ensures your files load perfectly whether they use standard names 
- * or duplicate variations (like 'signin (1).html') without throwing errors.
+ * Checks if the file exists. If it doesn't, it checks the "(1)" fallback version 
+ * automatically so your site never throws an ENOENT / Not Found error.
  */
 const sendSmartFile = (res, primaryName, fallbackName) => {
   const primaryPath = path.join(__dirname, primaryName);
@@ -56,19 +55,19 @@ const sendSmartFile = (res, primaryName, fallbackName) => {
   }
 };
 
-// --- AUTOMATED AUTHENTICATION ROUTING BLOCKS ---
+// --- AUTOMATED AUTHENTICATION ROUTING BLOCKS (CATCHES ALL VARIATIONS) ---
 
-// Serve Sign In page layout (Handles both clean /signin and /signin.html from your website links)
-app.get(['/signin', '/signin.html'], (req, res) => {
+// Serve Sign In page (Handles every possible URL link form your website)
+app.get(['/signin', '/signin.html', '/signin%20(1).html', '/signin (1).html'], (req, res) => {
   sendSmartFile(res, 'signin.html', 'signin (1).html');
 });
 
-// Serve Sign Up page layout (Handles both clean /signup and /signup.html from your website links)
-app.get(['/signup', '/signup.html'], (req, res) => {
+// Serve Sign Up page (Handles every possible URL link from your website)
+app.get(['/signup', '/signup.html', '/signup%20(1).html', '/signup (1).html'], (req, res) => {
   sendSmartFile(res, 'signup.html', 'signup (1).html');
 });
 
-// Fallback Route Handler for Forgot Password (Handles both clean /forgot-password and /forgot-password.html)
+// Fallback Route Handler for Forgot Password Endpoint
 app.get(['/forgot-password', '/forgot-password.html'], (req, res) => {
   res.send(`
     <div style="font-family: sans-serif; text-align: center; padding: 60px; background-color: #0f172a; color: #fff; height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; margin: 0;">
@@ -82,8 +81,8 @@ app.get(['/forgot-password', '/forgot-password.html'], (req, res) => {
   `);
 });
 
-// API: Handle New User Registration
-app.post('/api/auth/signup', async (req, res) => {
+// API: Handle New User Registration (Catches both clean API endpoints and direct HTML post variants)
+app.post(['/api/auth/signup', '/signup'], async (req, res) => {
   try {
     const { fullName, email, password } = req.body;
     if (!fullName || !email || !password) {
@@ -99,7 +98,6 @@ app.post('/api/auth/signup', async (req, res) => {
     const hashed = await bcrypt.hash(password, salt);
     await pool.query('INSERT INTO users (fullname, email, password) VALUES ($1, $2, $3)', [fullName, email.toLowerCase().trim(), hashed]);
     
-    // Redirect cleanly to login portal after successful database registration
     return res.redirect('/signin');
   } catch (err) {
     console.error(err);
@@ -108,7 +106,7 @@ app.post('/api/auth/signup', async (req, res) => {
 });
 
 // API: Handle User Login & Automatic Website Presentation
-app.post('/api/auth/signin', async (req, res) => {
+app.post(['/api/auth/signin', '/signin'], async (req, res) => {
   try {
     const { email, password } = req.body;
     if (!email || !password) {
@@ -126,17 +124,15 @@ app.post('/api/auth/signin', async (req, res) => {
       return res.status(400).send('Invalid email or password parameters. <a href="/signin">Go back</a>');
     }
     
-    // Generate secure session token
     const token = jwt.sign({ userId: user.id, email: user.email }, JWT_SECRET, { expiresIn: '24h' });
     
-    // Set cookie validation header explicitly inside the browser
     res.cookie('auth_token', token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       maxAge: 24 * 60 * 60 * 1000
     });
     
-    // 🚀 AFTER SIGNIN: Forces your browser window straight onto your website layout!
+    // 🚀 AFTER SIGNIN: Redirects directly to your website homepage layout!
     return res.redirect('/');
 
   } catch (err) {
