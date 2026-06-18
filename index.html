@@ -7,19 +7,28 @@
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }
         body { background-color: #0f172a; color: #ffffff; min-height: 100vh; display: flex; flex-direction: column; }
-        nav { display: flex; justify-content: space-between; align-items: center; padding: 24px 8%; border-bottom: 1px solid #1e293b; background: #0f172a; }
-        nav .brand { font-size: 22px; font-weight: bold; color: #38bdf8; text-decoration: none; }
-        nav .links { display: flex; gap: 24px; }
+        nav { display: flex; justify-content: space-between; align-items: center; padding: 24px 8%; background: #0f172a; border-bottom: 1px solid rgba(255,255,255,0.03); }
+        nav .brand { font-size: 26px; font-weight: bold; color: #38bdf8; text-decoration: none; }
+        nav .links { display: flex; gap: 28px; }
         nav .links a { color: #94a3b8; text-decoration: none; font-size: 16px; font-weight: 500; transition: color 0.2s; }
         nav .links a:hover, nav .links a.active { color: #38bdf8; }
-        .hero { max-width: 800px; margin: 100px auto; padding: 0 20px; text-align: center; }
-        .hero h1 { font-size: 48px; color: #ffffff; margin-bottom: 16px; }
-        .hero h3 { font-size: 24px; color: #38bdf8; margin-bottom: 24px; font-weight: 600; }
-        .hero p { font-size: 18px; color: #94a3b8; line-height: 1.8; }
-        .container { max-width: 1000px; margin: 0 auto 60px auto; padding: 0 20px; width: 100%; }
-        .infused-card { background: #1e293b; border: 1px solid #334155; padding: 30px; border-radius: 12px; margin-top: 30px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
-        .infused-card h2 { color: #38bdf8; font-size: 24px; margin-bottom: 14px; }
-        .infused-card p { color: #cbd5e1; font-size: 16px; line-height: 1.7; white-space: pre-wrap; }
+        .hero-section { max-width: 1200px; margin: auto; padding: 60px 8%; display: flex; justify-content: space-between; align-items: center; gap: 40px; width: 100%; flex-wrap: wrap-reverse; }
+        .hero-left { flex: 1; min-width: 300px; }
+        .hero-left h4 { font-size: 18px; color: #38bdf8; font-weight: 500; margin-bottom: 14px; }
+        .hero-left h1 { font-size: 56px; font-weight: bold; color: #ffffff; margin-bottom: 12px; }
+        .hero-left h3 { font-size: 24px; color: #94a3b8; font-weight: 600; margin-bottom: 24px; }
+        .hero-left p { font-size: 16px; color: #94a3b8; line-height: 1.7; margin-bottom: 35px; max-width: 520px; }
+        .hero-actions { display: flex; gap: 16px; }
+        .btn-filled { background: #38bdf8; color: #0f172a; font-weight: bold; border: none; padding: 14px 28px; border-radius: 8px; cursor: pointer; text-decoration: none; font-size: 15px; transition: background 0.2s; }
+        .btn-filled:hover { background: #0ea5e9; }
+        .btn-outlined { background: transparent; color: #38bdf8; font-weight: bold; border: 2px solid #38bdf8; padding: 12px 26px; border-radius: 8px; cursor: pointer; text-decoration: none; font-size: 15px; transition: all 0.2s; }
+        .btn-outlined:hover { background: rgba(56, 189, 248, 0.1); }
+        .hero-right { flex: 1; display: flex; justify-content: center; min-width: 300px; }
+        .avatar-glow { width: 340px; height: 340px; border-radius: 50%; background: url('/assets/avatar.jpg') center/cover no-repeat; border: 2px solid #38bdf8; box-shadow: 0 0 40px rgba(56, 189, 248, 0.35); }
+        .container { max-width: 1200px; margin: 0 auto 80px auto; padding: 0 8%; width: 100%; }
+        .custom-block { background: #1e293b; border: 1px solid #334155; padding: 35px; border-radius: 12px; margin-top: 35px; box-shadow: 0 10px 25px rgba(0,0,0,0.15); }
+        .custom-block h2 { color: #38bdf8; font-size: 26px; margin-bottom: 16px; }
+        .custom-block p { color: #cbd5e1; font-size: 16px; line-height: 1.8; white-space: pre-wrap; }
     </style>
 </head>
 <body>
@@ -32,14 +41,23 @@
             <a href="/skills">Skills</a>
             <a href="/projects">Projects</a>
             <a href="/contact">Contact</a>
-            <a href="/admin" style="border-left: 1px solid #334155; padding-left: 15px; color: #a855f7;">CMS Panel</a>
         </div>
     </nav>
 
-    <section class="hero">
-        <h1 id="hero-title">Loading Identity...</h1>
-        <h3 id="hero-subtitle">Loading Specification...</h3>
-        <p id="hero-description">Connecting with system secure database channels...</p>
+    <section class="hero-section">
+        <div class="hero-left">
+            <h4>Hello, I'm</h4>
+            <h1 id="hero-title">Joyce William</h1>
+            <h3 id="hero-subtitle">ICT Technician & Web Developer</h3>
+            <p id="hero-description">Passionate about web development, UI design, mobile applications, and building modern digital experiences.</p>
+            <div class="hero-actions">
+                <a href="/projects" class="btn-filled">View Projects</a>
+                <a href="/contact" class="btn-outlined">Contact Me</a>
+            </div>
+        </div>
+        <div class="hero-right">
+            <div class="avatar-glow"></div>
+        </div>
     </section>
 
     <div class="container" id="infinite-custom-sections"></div>
@@ -55,12 +73,12 @@
                 const customContainer = document.getElementById('infinite-custom-sections');
                 const homeBlocks = data.customSections.filter(sec => sec.page_target === 'home');
                 customContainer.innerHTML = homeBlocks.map(sec => `
-                    <div class="infused-card">
+                    <div class="custom-block">
                         <h2>${sec.section_title}</h2>
                         <p>${sec.section_content}</p>
                     </div>
                 `).join('');
-            }).catch(err => console.error("Data synchronization error:", err));
+            }).catch(err => console.error("Identity array integration sequence down event:", err));
     </script>
 </body>
 </html>
