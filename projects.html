@@ -7,22 +7,23 @@
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }
         body { background-color: #0f172a; color: #ffffff; min-height: 100vh; display: flex; flex-direction: column; }
-        nav { display: flex; justify-content: space-between; align-items: center; padding: 24px 8%; border-bottom: 1px solid #1e293b; background: #0f172a; }
-        nav .brand { font-size: 22px; font-weight: bold; color: #38bdf8; text-decoration: none; }
-        nav .links { display: flex; gap: 24px; }
+        nav { display: flex; justify-content: space-between; align-items: center; padding: 24px 8%; background: #0f172a; border-bottom: 1px solid rgba(255,255,255,0.03); }
+        nav .brand { font-size: 26px; font-weight: bold; color: #38bdf8; text-decoration: none; }
+        nav .links { display: flex; gap: 28px; }
         nav .links a { color: #94a3b8; text-decoration: none; font-size: 16px; }
         nav .links a:hover, nav .links a.active { color: #38bdf8; }
-        .container { max-width: 1100px; margin: 60px auto; padding: 0 20px; width: 100%; }
-        h1 { font-size: 36px; margin-bottom: 30px; color: #ffffff; }
-        .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 24px; margin-bottom: 50px; }
-        .proj-card { background: #1e293b; border: 1px solid #334155; border-radius: 12px; padding: 24px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
-        .proj-card h3 { color: #38bdf8; font-size: 22px; margin-bottom: 12px; }
-        .proj-card p { color: #cbd5e1; font-size: 15px; line-height: 1.6; margin-bottom: 20px; flex-grow: 1; }
-        .proj-card a { color: #0f172a; background: #38bdf8; text-decoration: none; padding: 10px 16px; border-radius: 6px; font-weight: bold; text-align: center; font-size: 14px; display: block; width: fit-content; transition: background 0.2s; }
-        .proj-card a:hover { background: #0ea5e9; }
-        .infused-card { background: #1e293b; border: 1px solid #334155; padding: 30px; border-radius: 12px; margin-top: 30px; }
-        .infused-card h2 { color: #38bdf8; font-size: 24px; margin-bottom: 14px; }
-        .infused-card p { color: #cbd5e1; font-size: 16px; line-height: 1.7; white-space: pre-wrap; }
+        .container { max-width: 1200px; margin: 60px auto; padding: 0 8%; width: 100%; }
+        h1 { font-size: 36px; margin-bottom: 30px; color: #ffffff; border-bottom: 1px solid #1e293b; padding-bottom: 12px; }
+        .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 28px; margin-bottom: 50px; }
+        .proj-card { background: #1e293b; border: 1px solid #334155; border-radius: 12px; padding: 28px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 10px 20px rgba(0,0,0,0.2); transition: transform 0.2s; }
+        .proj-card:hover { transform: translateY(-4px); }
+        .proj-card h3 { color: #38bdf8; font-size: 22px; margin-bottom: 14px; }
+        .proj-card p { color: #cbd5e1; font-size: 15px; line-height: 1.6; margin-bottom: 24px; flex-grow: 1; }
+        .btn-card { color: #0f172a; background: #38bdf8; text-decoration: none; padding: 12px 20px; border-radius: 6px; font-weight: bold; text-align: center; font-size: 14px; width: fit-content; display: block; transition: background 0.2s; }
+        .btn-card:hover { background: #0ea5e9; }
+        .custom-block { background: #1e293b; border: 1px solid #334155; padding: 35px; border-radius: 12px; margin-top: 35px; }
+        .custom-block h2 { color: #38bdf8; font-size: 26px; margin-bottom: 16px; }
+        .custom-block p { color: #cbd5e1; font-size: 16px; line-height: 1.8; white-space: pre-wrap; }
     </style>
 </head>
 <body>
@@ -39,8 +40,8 @@
     </nav>
 
     <div class="container">
-        <h1>Engineering Implementations</h1>
-        <div class="projects-grid" id="projects-render-box"></div>
+        <h1>Projects Portfolio</h1>
+        <div class="projects-grid" id="projects-injection-box"></div>
         
         <div id="infinite-custom-sections"></div>
     </div>
@@ -49,9 +50,9 @@
         fetch('/api/public/site-data')
             .then(res => res.json())
             .then(data => {
-                const box = document.getElementById('projects-render-box');
+                const box = document.getElementById('projects-injection-box');
                 if(data.projects.length === 0) {
-                    box.innerHTML = `<p style="color:#94a3b8;">No projects posted yet.</p>`;
+                    box.innerHTML = `<p style="color:#94a3b8; font-size:16px;">No core dynamic engineering implementations logged inside repository stacks.</p>`;
                 } else {
                     box.innerHTML = data.projects.map(p => `
                         <div class="proj-card">
@@ -59,7 +60,7 @@
                                 <h3>${p.title}</h3>
                                 <p>${p.description}</p>
                             </div>
-                            <a href="${p.project_url}" target="_blank">Launch Deployment</a>
+                            <a href="${p.project_url}" target="_blank" class="btn-card">Launch Project</a>
                         </div>
                     `).join('');
                 }
@@ -67,7 +68,7 @@
                 const customContainer = document.getElementById('infinite-custom-sections');
                 const projectBlocks = data.customSections.filter(sec => sec.page_target === 'projects');
                 customContainer.innerHTML = projectBlocks.map(sec => `
-                    <div class="infused-card">
+                    <div class="custom-block">
                         <h2>${sec.section_title}</h2>
                         <p>${sec.section_content}</p>
                     </div>
