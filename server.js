@@ -43,11 +43,11 @@ const requireAuth = (req, res, next) => {
 
 // --- OPEN ENTRANCE AUTHENTICATION PAGES ---
 app.get('/signin', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'signin.html'));
+  res.sendFile(path.join(__dirname, 'signin.html'));
 });
 
 app.get('/signup', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'signup.html'));
+  res.sendFile(path.join(__dirname, 'signup.html'));
 });
 
 // --- API AUTH LOGIC CONTROLLER LOOP ---
@@ -115,28 +115,28 @@ app.post('/contact', async (req, res) => {
   }
 });
 
-// --- PROTECTED VIEWS (LOADS YOUR ORIGINAL UNTOUCHED FILES VIA MIDDLEWARE) ---
+// --- PROTECTED VIEWS (LOOKS DIRECTLY IN ROOT FOR YOUR UNTOUCHED portfolio FILES) ---
 app.get('/', requireAuth, (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index (1).html'));
+  res.sendFile(path.join(__dirname, 'index (1).html'));
 });
 
 app.get('/about', requireAuth, (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'about.html'));
+  res.sendFile(path.join(__dirname, 'about.html'));
 });
 
 app.get('/skills', requireAuth, (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'skills.html'));
+  res.sendFile(path.join(__dirname, 'skills.html'));
 });
 
 app.get('/projects', requireAuth, (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'projects.html'));
+  res.sendFile(path.join(__dirname, 'projects.html'));
 });
 
 app.get('/contact', requireAuth, (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'contact (1).html'));
+  res.sendFile(path.join(__dirname, 'contact (1).html'));
 });
 
-// Static assets handler fallback routing
-app.use(express.static(path.join(__dirname, 'public')));
+// Serve static assets directly from the root repository folder
+app.use(express.static(__dirname));
 
 app.listen(PORT, () => console.log(`🚀 Secure Gateway serving files cleanly on port ${PORT}`));
